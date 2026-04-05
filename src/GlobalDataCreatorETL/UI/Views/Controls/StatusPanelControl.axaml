@@ -3,10 +3,13 @@
              x:Class="GlobalDataCreatorETL.UI.Views.Controls.StatusPanelControl">
 
     <Border Classes="Card" Padding="12" Margin="0">
-        <Grid RowDefinitions="Auto,6,Auto,8,Auto,8,*">
+        <Grid RowDefinitions="Auto,10,Auto,6,Auto,8,Auto,8,*">
 
-            <!-- ── Row 0: Status header ─────────────────────────────────────── -->
-            <Grid Grid.Row="0" ColumnDefinitions="Auto,6,*,Auto,Auto">
+            <!-- ── Row 0: Panel header ──────────────────────────────────────── -->
+            <TextBlock Grid.Row="0" Classes="CardHeader" Text="Execution Log" />
+
+            <!-- ── Row 2: Status header ─────────────────────────────────────── -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,6,*,Auto,Auto">
                 <Ellipse Grid.Column="0" Classes="StatusDot"
                          Fill="{Binding SystemStatusColor}" />
                 <TextBlock Grid.Column="1" Grid.ColumnSpan="1"
@@ -26,8 +29,8 @@
                            VerticalAlignment="Center" />
             </Grid>
 
-            <!-- ── Row 2: Progress bar ──────────────────────────────────────── -->
-            <ProgressBar Grid.Row="2"
+            <!-- ── Row 4: Progress bar ──────────────────────────────────────── -->
+            <ProgressBar Grid.Row="4"
                          IsIndeterminate="{Binding IsBusy}"
                          Value="{Binding ProgressValue}"
                          Minimum="0" Maximum="100"
@@ -36,8 +39,8 @@
                          Background="#E8ECF0"
                          IsVisible="{Binding IsBusy}" />
 
-            <!-- ── Row 4: Execution metrics ─────────────────────────────────── -->
-            <Grid Grid.Row="4" ColumnDefinitions="Auto,*,24,Auto,*">
+            <!-- ── Row 6: Execution metrics ─────────────────────────────────── -->
+            <Grid Grid.Row="6" ColumnDefinitions="Auto,*,24,Auto,*">
                 <TextBlock Grid.Column="0" Classes="FieldLabel" Text="Country:" />
                 <TextBlock Grid.Column="1" FontSize="11"
                            Text="{Binding SelectedCountry.Name}"
@@ -48,21 +51,20 @@
                            TextTrimming="CharacterEllipsis" />
             </Grid>
 
-            <!-- ── Row 6: Execution log ─────────────────────────────────────── -->
-            <Border Grid.Row="6" Background="#F7F8FA"
-                    BorderBrush="#E2E6EA" BorderThickness="1"
-                    CornerRadius="4" Padding="8 6"
-                    MinHeight="120">
+            <!-- ── Row 8: Execution log ─────────────────────────────────────── -->
+            <Border Grid.Row="8" Background="#F1F5F9"
+                    BorderBrush="#E2E8F0" BorderThickness="1"
+                    CornerRadius="5" Padding="10 8">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding StatusLogs}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}"
-                                           FontFamily="Consolas" FontSize="11"
-                                           Foreground="#334155"
+                                           FontFamily="Consolas" FontSize="11.5"
+                                           Foreground="#1E293B"
                                            TextWrapping="Wrap"
-                                           Margin="0 1" />
+                                           Margin="0 1.5" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

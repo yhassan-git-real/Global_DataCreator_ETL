@@ -1,76 +1,73 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:GlobalDataCreatorETL.UI.Converters"
+             xmlns:controls="using:GlobalDataCreatorETL.UI.Views.Controls"
              x:Class="GlobalDataCreatorETL.UI.Views.Controls.ControlsPanelControl">
 
     <UserControl.Resources>
         <converters:StringEqualConverter x:Key="StringEqual" />
     </UserControl.Resources>
 
-    <Grid ColumnDefinitions="*,1,*,1,Auto" VerticalAlignment="Top">
+    <!-- Card 1 (*): status panel | Card 2 (fixed 420px): all controls -->
+    <Grid ColumnDefinitions="*,14,420">
 
-        <!-- ── Country + Mode ──────────────────────────────────────────────── -->
-        <StackPanel Grid.Column="0" Spacing="10" Margin="0 0 12 0">
-            <StackPanel Spacing="4">
-                <TextBlock Classes="FieldLabel" Text="Country" />
-                <ComboBox Classes="FormComboBox"
-                          ItemsSource="{Binding Countries}"
-                          SelectedItem="{Binding SelectedCountry}"
-                          DisplayMemberBinding="{Binding Name}"
-                          PlaceholderText="Select country…" />
-            </StackPanel>
+        <!-- ════ Card 1 — Status Panel (fills left) ═════════════════════════ -->
+        <controls:StatusPanelControl Grid.Column="0" />
 
-            <StackPanel Spacing="4">
-                <TextBlock Classes="FieldLabel" Text="Mode" />
-                <StackPanel Orientation="Horizontal" Spacing="4">
-                    <RadioButton Classes="FormRadio" Content="Export"
-                                 IsChecked="{Binding IsExportMode}" />
-                    <RadioButton Classes="FormRadio" Content="Import"
-                                 IsChecked="{Binding IsImportMode}" />
+        <!-- ════ Card 2 — Execution Controls ════════════════════════════════ -->
+        <Border Grid.Column="2" Classes="Card">
+            <StackPanel Spacing="12" VerticalAlignment="Top">
+
+                <TextBlock Classes="CardHeader" Text="Execution Controls" />
+
+                <!-- Row 1: Mode -->
+                <StackPanel Spacing="4">
+                    <TextBlock Classes="SectionTitle" Text="MODE" />
+                    <Border Classes="SectionGroup" Padding="12 8">
+                        <StackPanel Orientation="Horizontal" Spacing="28">
+                            <RadioButton Classes="FormRadio" Content="Export"
+                                         IsChecked="{Binding IsExportMode}" />
+                            <RadioButton Classes="FormRadio" Content="Import"
+                                         IsChecked="{Binding IsImportMode}" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
+
+                <!-- Row 3: View | Stored Procedure -->
+                <Grid ColumnDefinitions="*,8,*">
+                    <StackPanel Grid.Column="0" Spacing="4">
+                        <TextBlock Classes="SectionTitle" Text="VIEW" />
+                        <TextBox Classes="FormInput" IsReadOnly="True"
+                                 Text="{Binding SelectedView}"
+                                 Foreground="#2563EB" FontWeight="Medium" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="4">
+                        <TextBlock Classes="SectionTitle" Text="STORED PROCEDURE" />
+                        <TextBox Classes="FormInput" IsReadOnly="True"
+                                 Text="{Binding SelectedSP}"
+                                 Foreground="#2563EB" FontWeight="Medium" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Row 4: Buttons -->
+                <Grid ColumnDefinitions="*,8,*,8,*">
+                    <Button Grid.Column="0" Classes="PrimaryButton"
+                            Command="{Binding StartCommand}"
+                            HorizontalAlignment="Stretch"
+                            Content="▶  Start" />
+                    <Button Grid.Column="2" Classes="DangerButton"
+                            Command="{Binding CancelCommand}"
+                            HorizontalAlignment="Stretch"
+                            Content="✕  Cancel"
+                            IsEnabled="{Binding IsBusy}" />
+                    <Button Grid.Column="4" Classes="ResetButton"
+                            Command="{Binding ResetCommand}"
+                            HorizontalAlignment="Stretch"
+                            Content="↺  Reset" />
+                </Grid>
+
             </StackPanel>
-        </StackPanel>
-
-        <!-- Column divider -->
-        <Rectangle Grid.Column="1" Fill="#EEEEEE" Width="1" Margin="0 4" />
-
-        <!-- ── Database Objects ─────────────────────────────────────────────── -->
-        <StackPanel Grid.Column="2" Spacing="8" Margin="12 0">
-            <TextBlock Classes="FieldLabel" Text="Database Objects" />
-            <StackPanel Spacing="4">
-                <TextBlock Classes="FieldLabel" FontSize="11" Foreground="#888888" Text="View" />
-                <TextBox Classes="FormInput" IsReadOnly="True"
-                         Text="{Binding SelectedView}"
-                         Foreground="#3045CF" FontWeight="Medium" />
-            </StackPanel>
-            <StackPanel Spacing="4">
-                <TextBlock Classes="FieldLabel" FontSize="11" Foreground="#888888" Text="Stored Procedure" />
-                <TextBox Classes="FormInput" IsReadOnly="True"
-                         Text="{Binding SelectedSP}"
-                         Foreground="#3045CF" FontWeight="Medium" />
-            </StackPanel>
-        </StackPanel>
-
-        <!-- Column divider -->
-        <Rectangle Grid.Column="3" Fill="#EEEEEE" Width="1" Margin="0 4" />
-
-        <!-- ── Action Buttons ───────────────────────────────────────────────── -->
-        <StackPanel Grid.Column="4" Spacing="8" Margin="12 0 0 0"
-                    VerticalAlignment="Center" MinWidth="100">
-            <Button Classes="PrimaryButton"
-                    Command="{Binding StartCommand}"
-                    HorizontalAlignment="Stretch"
-                    Content="▶  Start" />
-            <Button Classes="DangerButton"
-                    Command="{Binding CancelCommand}"
-                    HorizontalAlignment="Stretch"
-                    Content="✕  Cancel"
-                    IsEnabled="{Binding IsBusy}" />
-            <Button Classes="ResetButton"
-                    Command="{Binding ResetCommand}"
-                    HorizontalAlignment="Stretch"
-                    Content="↺  Reset" />
-        </StackPanel>
+        </Border>
 
     </Grid>
 
