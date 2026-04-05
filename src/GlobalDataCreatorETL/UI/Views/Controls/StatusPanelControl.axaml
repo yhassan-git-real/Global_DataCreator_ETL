@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="GlobalDataCreatorETL.UI.Views.Controls.StatusPanelControl">
+
+    <Border Classes="Card" Padding="12" Margin="0">
+        <Grid RowDefinitions="Auto,6,Auto,8,Auto,8,*">
+
+            <!-- ── Row 0: Status header ─────────────────────────────────────── -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,6,*,Auto,Auto">
+                <Ellipse Grid.Column="0" Classes="StatusDot"
+                         Fill="{Binding SystemStatusColor}" />
+                <TextBlock Grid.Column="1" Grid.ColumnSpan="1"
+                           FontWeight="SemiBold" FontSize="12"
+                           Text="{Binding SystemStatusMessage}"
+                           Foreground="{Binding SystemStatusColor}"
+                           VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" FontSize="11" Foreground="#777777"
+                           Text="{Binding CurrentStepPhase}"
+                           VerticalAlignment="Center" Margin="8 0 0 0" />
+                <TextBlock Grid.Column="3" FontSize="11" Foreground="#555555"
+                           Text="{Binding ElapsedTime}" FontFamily="Consolas"
+                           VerticalAlignment="Center" Margin="0 0 12 0" />
+                <TextBlock Grid.Column="4" FontSize="11" Foreground="#1565C0"
+                           FontWeight="SemiBold"
+                           Text="{Binding RecordCount, StringFormat='{}{0:N0} rows'}"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <!-- ── Row 2: Progress bar ──────────────────────────────────────── -->
+            <ProgressBar Grid.Row="2"
+                         IsIndeterminate="{Binding IsBusy}"
+                         Value="{Binding ProgressValue}"
+                         Minimum="0" Maximum="100"
+                         Height="4" CornerRadius="2"
+                         Foreground="#27AE60"
+                         Background="#E8ECF0"
+                         IsVisible="{Binding IsBusy}" />
+
+            <!-- ── Row 4: Execution metrics ─────────────────────────────────── -->
+            <Grid Grid.Row="4" ColumnDefinitions="Auto,*,24,Auto,*">
+                <TextBlock Grid.Column="0" Classes="FieldLabel" Text="Country:" />
+                <TextBlock Grid.Column="1" FontSize="11"
+                           Text="{Binding SelectedCountry.Name}"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="3" Classes="FieldLabel" Text="Output:" />
+                <TextBlock Grid.Column="4" FontSize="11" Foreground="#1565C0"
+                           Text="{Binding OutputFilePath}"
+                           TextTrimming="CharacterEllipsis" />
+            </Grid>
+
+            <!-- ── Row 6: Execution log ─────────────────────────────────────── -->
+            <Border Grid.Row="6" Background="#F7F8FA"
+                    BorderBrush="#E2E6EA" BorderThickness="1"
+                    CornerRadius="4" Padding="8 6"
+                    MinHeight="120">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding StatusLogs}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           FontFamily="Consolas" FontSize="11"
+                                           Foreground="#334155"
+                                           TextWrapping="Wrap"
+                                           Margin="0 1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+
+        </Grid>
+    </Border>
+
+</UserControl>

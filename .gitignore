@@ -1,0 +1,50 @@
+# Build artifacts
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# ReSharper
+.idea/
+*.DotSettings
+
+# Temporary output and logs
+Output/
+Logs/
+*.log
+
+# Build output
+publish/
+*.nupkg
+
+# Node modules (if applicable)
+node_modules/
+package-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+*.code-workspace
+
+# Runtime temp files
+*.tmp
+*.temp
+
+RapidZ/
+Database_scripts_schema&data/
+Development_Plan_document.md
+Execution_Blueprint.md
+BOTSWANA_29_DEC23-JAN24IMP.xlsx
+BOTSWANA_31_JAN23EXP.xlsx

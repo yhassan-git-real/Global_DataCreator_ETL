@@ -1,0 +1,11 @@
+{
+  "ServerName": "Matrix,1434",
+  "DatabaseName": "Process",
+  "AuthMode": "Windows",
+  "Username": "",
+  "Password": "",
+  "MasterTableName": "dbo.mst_country",
+  "CommandTimeoutSeconds": 3600,
+  "ConnectionTimeoutSeconds": 5,
+  "MonitoringIntervalMinutes": 10
+}

@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:GlobalDataCreatorETL.UI.Converters"
+             x:Class="GlobalDataCreatorETL.UI.Views.Controls.ControlsPanelControl">
+
+    <UserControl.Resources>
+        <converters:StringEqualConverter x:Key="StringEqual" />
+    </UserControl.Resources>
+
+    <Grid ColumnDefinitions="*,1,*,1,Auto" VerticalAlignment="Top">
+
+        <!-- ── Country + Mode ──────────────────────────────────────────────── -->
+        <StackPanel Grid.Column="0" Spacing="10" Margin="0 0 12 0">
+            <StackPanel Spacing="4">
+                <TextBlock Classes="FieldLabel" Text="Country" />
+                <ComboBox Classes="FormComboBox"
+                          ItemsSource="{Binding Countries}"
+                          SelectedItem="{Binding SelectedCountry}"
+                          DisplayMemberBinding="{Binding Name}"
+                          PlaceholderText="Select country…" />
+            </StackPanel>
+
+            <StackPanel Spacing="4">
+                <TextBlock Classes="FieldLabel" Text="Mode" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <RadioButton Classes="FormRadio" Content="Export"
+                                 IsChecked="{Binding IsExportMode}" />
+                    <RadioButton Classes="FormRadio" Content="Import"
+                                 IsChecked="{Binding IsImportMode}" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Column divider -->
+        <Rectangle Grid.Column="1" Fill="#EEEEEE" Width="1" Margin="0 4" />
+
+        <!-- ── Database Objects ─────────────────────────────────────────────── -->
+        <StackPanel Grid.Column="2" Spacing="8" Margin="12 0">
+            <TextBlock Classes="FieldLabel" Text="Database Objects" />
+            <StackPanel Spacing="4">
+                <TextBlock Classes="FieldLabel" FontSize="11" Foreground="#888888" Text="View" />
+                <TextBox Classes="FormInput" IsReadOnly="True"
+                         Text="{Binding SelectedView}"
+                         Foreground="#3045CF" FontWeight="Medium" />
+            </StackPanel>
+            <StackPanel Spacing="4">
+                <TextBlock Classes="FieldLabel" FontSize="11" Foreground="#888888" Text="Stored Procedure" />
+                <TextBox Classes="FormInput" IsReadOnly="True"
+                         Text="{Binding SelectedSP}"
+                         Foreground="#3045CF" FontWeight="Medium" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Column divider -->
+        <Rectangle Grid.Column="3" Fill="#EEEEEE" Width="1" Margin="0 4" />
+
+        <!-- ── Action Buttons ───────────────────────────────────────────────── -->
+        <StackPanel Grid.Column="4" Spacing="8" Margin="12 0 0 0"
+                    VerticalAlignment="Center" MinWidth="100">
+            <Button Classes="PrimaryButton"
+                    Command="{Binding StartCommand}"
+                    HorizontalAlignment="Stretch"
+                    Content="▶  Start" />
+            <Button Classes="DangerButton"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Stretch"
+                    Content="✕  Cancel"
+                    IsEnabled="{Binding IsBusy}" />
+            <Button Classes="ResetButton"
+                    Command="{Binding ResetCommand}"
+                    HorizontalAlignment="Stretch"
+                    Content="↺  Reset" />
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

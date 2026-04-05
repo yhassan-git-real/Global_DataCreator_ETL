@@ -1,0 +1,208 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        CARD
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="Border.Card">
+        <Setter Property="Background"       Value="White" />
+        <Setter Property="CornerRadius"     Value="8" />
+        <Setter Property="Padding"          Value="14" />
+        <Setter Property="BoxShadow"        Value="0 1 6 0 #14000000" />
+        <Setter Property="Margin"           Value="0" />
+    </Style>
+
+    <Style Selector="TextBlock.CardHeader">
+        <Setter Property="FontSize"         Value="13" />
+        <Setter Property="FontWeight"       Value="SemiBold" />
+        <Setter Property="Foreground"       Value="#222222" />
+        <Setter Property="Margin"           Value="0 0 0 10" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        SECTION GROUP (inside left panel)
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="TextBlock.SectionTitle">
+        <Setter Property="FontSize"         Value="10" />
+        <Setter Property="FontWeight"       Value="SemiBold" />
+        <Setter Property="Foreground"       Value="#8896A8" />
+        <Setter Property="LetterSpacing"    Value="1" />
+        <Setter Property="Margin"           Value="2 0 0 4" />
+    </Style>
+
+    <Style Selector="Border.SectionGroup">
+        <Setter Property="Background"       Value="#FAFBFC" />
+        <Setter Property="BorderBrush"      Value="#E8ECF0" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="CornerRadius"     Value="6" />
+        <Setter Property="Padding"          Value="10 10" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        LABELS & INPUTS
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="TextBlock.FieldLabel">
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="Foreground"       Value="#555555" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin"           Value="0 0 6 0" />
+    </Style>
+
+    <Style Selector="TextBox.FormInput">
+        <Setter Property="Height"           Value="30" />
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="Padding"          Value="8 3" />
+        <Setter Property="CornerRadius"     Value="4" />
+        <Setter Property="BorderBrush"      Value="#D0D5DC" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="Background"       Value="White" />
+    </Style>
+
+    <Style Selector="TextBox.FormInput:focus">
+        <Setter Property="BorderBrush"      Value="#3045CF" />
+        <Setter Property="BorderThickness"  Value="1.5" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        COMBO BOX
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="ComboBox.FormComboBox">
+        <Setter Property="Height"           Value="30" />
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="Padding"          Value="8 3" />
+        <Setter Property="CornerRadius"     Value="4" />
+        <Setter Property="BorderBrush"      Value="#D0D5DC" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="Background"       Value="White" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        RADIO BUTTONS
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="RadioButton.FormRadio">
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="Margin"           Value="0 0 12 0" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        BUTTONS
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="Button.PrimaryButton">
+        <Setter Property="Background"       Value="#27AE60" />
+        <Setter Property="Foreground"       Value="White" />
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="FontWeight"       Value="SemiBold" />
+        <Setter Property="Height"           Value="34" />
+        <Setter Property="CornerRadius"     Value="5" />
+        <Setter Property="Padding"          Value="16 0" />
+        <Setter Property="Cursor"           Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Button.PrimaryButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"       Value="#219A52" />
+    </Style>
+
+    <Style Selector="Button.PrimaryButton:disabled /template/ ContentPresenter">
+        <Setter Property="Background"       Value="#A5D6A7" />
+        <Setter Property="Opacity"          Value="0.6" />
+    </Style>
+
+    <Style Selector="Button.DangerButton">
+        <Setter Property="Background"       Value="#E53935" />
+        <Setter Property="Foreground"       Value="White" />
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="FontWeight"       Value="SemiBold" />
+        <Setter Property="Height"           Value="34" />
+        <Setter Property="CornerRadius"     Value="5" />
+        <Setter Property="Padding"          Value="16 0" />
+        <Setter Property="Cursor"           Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Button.DangerButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"       Value="#C62828" />
+    </Style>
+
+    <Style Selector="Button.DangerButton:disabled /template/ ContentPresenter">
+        <Setter Property="Background"       Value="#EF9A9A" />
+        <Setter Property="Opacity"          Value="0.6" />
+    </Style>
+
+    <Style Selector="Button.ResetButton">
+        <Setter Property="Background"       Value="#1565C0" />
+        <Setter Property="Foreground"       Value="White" />
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="Height"           Value="34" />
+        <Setter Property="CornerRadius"     Value="5" />
+        <Setter Property="Padding"          Value="16 0" />
+        <Setter Property="Cursor"           Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Button.ResetButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"       Value="#0D47A1" />
+    </Style>
+
+    <Style Selector="Button.OutlineButton">
+        <Setter Property="Background"       Value="Transparent" />
+        <Setter Property="Foreground"       Value="#3045CF" />
+        <Setter Property="BorderBrush"      Value="#3045CF" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="FontSize"         Value="12" />
+        <Setter Property="Height"           Value="30" />
+        <Setter Property="CornerRadius"     Value="4" />
+        <Setter Property="Padding"          Value="10 0" />
+        <Setter Property="Cursor"           Value="Hand" />
+    </Style>
+
+    <Style Selector="Button.OutlineButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"       Value="#EEF0FF" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        VALIDATION MESSAGE
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="TextBlock.ValidationMessage">
+        <Setter Property="FontSize"         Value="11" />
+        <Setter Property="Foreground"       Value="#E53935" />
+        <Setter Property="TextWrapping"     Value="Wrap" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        STATUS INDICATOR DOT
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="Ellipse.StatusDot">
+        <Setter Property="Width"            Value="9" />
+        <Setter Property="Height"           Value="9" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin"           Value="0 0 6 0" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        FOOTER
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="Border.FooterBar">
+        <Setter Property="Background"       Value="#1A1B2E" />
+        <Setter Property="Padding"          Value="12 5" />
+        <Setter Property="Height"           Value="26" />
+    </Style>
+
+    <Style Selector="TextBlock.FooterText">
+        <Setter Property="FontSize"         Value="11" />
+        <Setter Property="Foreground"       Value="#9AA8C0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin"           Value="0 0 10 0" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+        SECTION SEPARATOR
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <Style Selector="Separator.FormSeparator">
+        <Setter Property="Margin"           Value="0 6" />
+        <Setter Property="Background"       Value="#EEEEEE" />
+        <Setter Property="Height"           Value="1" />
+    </Style>
+
+</Styles>

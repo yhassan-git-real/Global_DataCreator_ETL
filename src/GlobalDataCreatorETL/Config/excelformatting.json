@@ -1,0 +1,20 @@
+{
+  "FontName": "Times New Roman",
+  "FontSize": 10,
+  "FontColor": "#000000",
+  "HeaderFontName": "Calibri",
+  "HeaderFontSize": 11,
+  "HeaderBackgroundColor": "#FCD5B4",
+  "HeaderFontColor": "#000000",
+  "BorderStyle": "Thin",
+  "AutoFitSampleRows": 100,
+  "AutoFitSampleRowsLarge": 50,
+  "LargeDatasetThreshold": 100000,
+  "DateFormat": "dd\\-mmm\\-yy",
+  "WrapText": false,
+  "AutoFitColumns": true,
+  "FreezeTopRow": true,
+  "HeaderRowHeight": 20,
+  "HeaderHorizontalAlignment": "Center",
+  "HeaderVerticalAlignment": "Middle"
+}

@@ -1,0 +1,135 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:GlobalDataCreatorETL.UI.Converters"
+             xmlns:helpers="using:GlobalDataCreatorETL.UI.Helpers"
+             x:Class="GlobalDataCreatorETL.UI.Views.Controls.InputFieldsControl">
+
+    <UserControl.Resources>
+        <converters:MonthIndexConverter x:Key="MonthIndex" />
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="0" Margin="0 2">
+
+            <!-- ── Section: Date Range ──────────────────────────────────── -->
+            <TextBlock Classes="SectionTitle" Text="DATE RANGE" />
+            <Border Classes="SectionGroup">
+                <StackPanel Spacing="8">
+                    <!-- From Month -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="From" />
+                        <Grid ColumnDefinitions="*,6,68">
+                            <ComboBox Grid.Column="0" Classes="FormComboBox"
+                                      SelectedIndex="{Binding Filter.FromMonth, Converter={StaticResource MonthIndex}}"
+                                      ItemsSource="{x:Static helpers:DateHelpers.MonthNames}" />
+                            <TextBox  Grid.Column="2" Classes="FormInput"
+                                      Text="{Binding Filter.FromYear}"
+                                      Watermark="Year" />
+                        </Grid>
+                    </StackPanel>
+                    <!-- To Month -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="To" />
+                        <Grid ColumnDefinitions="*,6,68">
+                            <ComboBox Grid.Column="0" Classes="FormComboBox"
+                                      SelectedIndex="{Binding Filter.ToMonth, Converter={StaticResource MonthIndex}}"
+                                      ItemsSource="{x:Static helpers:DateHelpers.MonthNames}" />
+                            <TextBox  Grid.Column="2" Classes="FormInput"
+                                      Text="{Binding Filter.ToYear}"
+                                      Watermark="Year" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Section: Trade Filters ───────────────────────────────── -->
+            <TextBlock Classes="SectionTitle" Text="TRADE FILTERS" Margin="0 10 0 0" />
+            <Border Classes="SectionGroup">
+                <StackPanel Spacing="8">
+                    <!-- HS Code -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="HS Code" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.HsCode}"
+                                 Watermark="e.g. 8471 — leave blank for all" />
+                    </StackPanel>
+                    <!-- Product -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="Product" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.Product}"
+                                 Watermark="Product description" />
+                    </StackPanel>
+                    <!-- IEC Code -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="IEC Code" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.IecCode}"
+                                 Watermark="IEC number" />
+                    </StackPanel>
+                    <!-- Company (label changes with mode) -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="{Binding CompanyLabel}" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.CompanyName}"
+                                 Watermark="Company name" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Section: Foreign Trade ───────────────────────────────── -->
+            <TextBlock Classes="SectionTitle" Text="FOREIGN TRADE" Margin="0 10 0 0" />
+            <Border Classes="SectionGroup">
+                <StackPanel Spacing="8">
+                    <!-- Foreign Country Code -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="Foreign Country Code" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.ForeignCountryCode}"
+                                 Watermark="e.g. USA, CHN" />
+                    </StackPanel>
+                    <!-- Foreign Name -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="Foreign Name" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.ForeignName}"
+                                 Watermark="Foreign party name" />
+                    </StackPanel>
+                    <!-- Port -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="Port" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.Port}"
+                                 Watermark="Port of entry / exit" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ── Section: Output Settings ─────────────────────────────── -->
+            <TextBlock Classes="SectionTitle" Text="OUTPUT SETTINGS" Margin="0 10 0 0" />
+            <Border Classes="SectionGroup">
+                <StackPanel Spacing="8">
+                    <!-- Output Directory -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="Output Directory" />
+                        <Grid ColumnDefinitions="*,6,Auto">
+                            <TextBox Grid.Column="0" Classes="FormInput"
+                                     Text="{Binding Filter.OutputDirectory}"
+                                     Watermark="Select output folder…" />
+                            <Button Grid.Column="2" Classes="OutlineButton"
+                                    Command="{Binding BrowseFolderCommand}"
+                                    Content="Browse" />
+                        </Grid>
+                    </StackPanel>
+                    <!-- Excel File Name -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Classes="FieldLabel" Text="Excel File Name (optional)" />
+                        <TextBox Classes="FormInput" Text="{Binding Filter.UserFileName}"
+                                 Watermark="Auto-generated if blank" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Validation message -->
+            <TextBlock Classes="ValidationMessage"
+                       Margin="0 8 0 4"
+                       Text="{Binding ValidationMessage}"
+                       IsVisible="{Binding HasValidationError}" />
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

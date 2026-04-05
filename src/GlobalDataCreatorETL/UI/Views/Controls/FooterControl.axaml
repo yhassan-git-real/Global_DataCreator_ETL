@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="GlobalDataCreatorETL.UI.Views.Controls.FooterControl">
+
+    <Border Classes="FooterBar">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+
+            <!-- Left: copyright -->
+            <TextBlock Grid.Column="0" Classes="FooterText"
+                       Text="© 2025 Global DataCreator ETL  v1.0.0" />
+
+            <!-- Right: DB connection status -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                <Ellipse Width="8" Height="8" VerticalAlignment="Center"
+                         Fill="{Binding ConnectionInfo.StatusColor}" />
+                <TextBlock Classes="FooterText"
+                           Text="{Binding ConnectionInfo.ServerName}" />
+                <TextBlock Classes="FooterText" Text="|" />
+                <TextBlock Classes="FooterText"
+                           Text="{Binding ConnectionInfo.DatabaseName}" />
+                <TextBlock Classes="FooterText" Text="|" />
+                <TextBlock Classes="FooterText"
+                           Text="{Binding ConnectionInfo.StatusMessage}" />
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>
