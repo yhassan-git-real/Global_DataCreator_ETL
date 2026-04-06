@@ -1,0 +1,29 @@
+{
+  "_info": "Global DataCreator ETL — single source of truth for all paths and settings.",
+  "_info2": "This file is auto-copied next to the .exe on every build/publish.",
+  "_info3": "Edit here and rebuild — bat scripts and application both read this file.",
+
+  "Paths": {
+    "_help": "Leave empty = auto-resolve relative to the exe (recommended).",
+    "OutputDirectory": "F:\\Global_DataCreator_ETL\\Output",
+    "LogDirectory":    "F:\\Global_DataCreator_ETL\\Logs"
+  },
+
+  "Database": {
+    "_help": "Leave a field empty to keep the Config/dbsettings.json default.",
+    "ServerName":                "Matrix,1434",
+    "DatabaseName":              "Process",
+    "AuthMode":                  "Windows",
+    "Username":                  "",
+    "Password":                  "",
+    "CommandTimeoutSeconds":     3600,
+    "ConnectionTimeoutSeconds":  5,
+    "MonitoringIntervalMinutes": 10
+  },
+
+  "Application": {
+    "_help": "Set to null/0 to keep Config/appsettings.json defaults.",
+    "LargeDatasetThreshold": 50000,
+    "MaxExcelRows":          1048575
+  }
+}
