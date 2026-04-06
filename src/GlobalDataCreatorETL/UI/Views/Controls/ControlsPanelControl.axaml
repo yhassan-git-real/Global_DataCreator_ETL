@@ -15,66 +15,129 @@
         <controls:StatusPanelControl Grid.Column="0" />
 
         <!-- ════ Card 2 — Execution Controls ════════════════════════════════ -->
-        <Border Grid.Column="2" Classes="Card">
-            <StackPanel Spacing="8" VerticalAlignment="Top">
+        <Border Grid.Column="2" Classes="Card" Padding="0" ClipToBounds="True">
+            <Grid RowDefinitions="Auto,2,Auto,1,Auto,1,Auto">
 
-                <StackPanel Classes="CardHeaderRow">
-                    <Viewbox Classes="HeaderIcon">
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="#5B9BF5" Data="M4 14H8V22H4ZM10 10H14V22H10ZM16 6H20V22H16Z" />
-                        </Canvas>
-                    </Viewbox>
-                    <TextBlock Classes="CardHeader" Text="Execution Controls" />
-                </StackPanel>
-                <Border Classes="Divider" />
-
-                <!-- Row 1: Mode -->
-                <StackPanel Spacing="3">
-                    <TextBlock Classes="SectionTitle" Text="MODE" />
-                    <Border Classes="SectionGroup">
-                        <StackPanel Orientation="Horizontal" Spacing="24">
-                            <RadioButton Classes="FormRadio" Content="Export"
-                                         IsChecked="{Binding IsExportMode}" />
-                            <RadioButton Classes="FormRadio" Content="Import"
-                                         IsChecked="{Binding IsImportMode}" />
+                <!-- ── Row 0: Header banner ──────────────────────────────── -->
+                <Border Grid.Row="0" Background="#17263C" Padding="14 10">
+                    <Grid ColumnDefinitions="Auto,10,Auto">
+                        <Viewbox Grid.Column="0" Width="24" Height="24"
+                                 VerticalAlignment="Center" Stretch="Uniform">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#5B9BF5"
+                                      Data="M4 14H8V22H4ZM10 10H14V22H10ZM16 6H20V22H16Z" />
+                            </Canvas>
+                        </Viewbox>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="2">
+                            <TextBlock Text="EXECUTION CONTROLS"
+                                       FontSize="13" FontWeight="Bold" LetterSpacing="1.4"
+                                       Foreground="#D4E8F8"
+                                       FontFamily="Segoe UI, Inter, sans-serif" />
+                            <TextBlock Text="ETL Operation Manager"
+                                       FontSize="9" LetterSpacing="0.5"
+                                       Foreground="#3A566E"
+                                       FontFamily="Segoe UI, Inter, sans-serif" />
                         </StackPanel>
-                    </Border>
-                </StackPanel>
+                    </Grid>
+                </Border>
 
-                <!-- Row 2: View | Stored Procedure -->
-                <Grid ColumnDefinitions="*,8,*">
-                    <StackPanel Grid.Column="0" Spacing="3">
-                        <TextBlock Classes="SectionTitle" Text="VIEW" />
-                        <TextBox Classes="FormInput" IsReadOnly="True"
-                                 Text="{Binding SelectedView}"
-                                 Foreground="#A4C4DE" FontWeight="SemiBold" />
+                <!-- ── Row 1: Blue gradient accent line ──────────────────── -->
+                <Border Grid.Row="1" Height="2">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                            <GradientStop Color="#4A8EE8" Offset="0" />
+                            <GradientStop Color="#2C5CB0" Offset="0.4" />
+                            <GradientStop Color="#1E2E44" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- ── Row 2: Mode + View/SP inputs ──────────────────────── -->
+                <Border Grid.Row="2" Background="#131D2C" Padding="14 12">
+                    <StackPanel Spacing="14">
+
+                        <!-- MODE sub-section -->
+                        <StackPanel Spacing="6">
+                            <TextBlock Classes="SectionTitle" Text="MODE" />
+                            <Border Background="#0C1A2C" BorderBrush="#1E3050"
+                                    BorderThickness="1" CornerRadius="6" Padding="12 8">
+                                <StackPanel Orientation="Horizontal" Spacing="32">
+                                    <RadioButton Classes="FormRadio" Content="Export"
+                                                 IsChecked="{Binding IsExportMode}" />
+                                    <RadioButton Classes="FormRadio" Content="Import"
+                                                 IsChecked="{Binding IsImportMode}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- VIEW / STORED PROCEDURE sub-section -->
+                        <Grid ColumnDefinitions="*,10,*">
+
+                            <!-- VIEW -->
+                            <StackPanel Grid.Column="0" Spacing="5">
+                                <TextBlock Classes="SectionTitle" Text="VIEW" />
+                                <Border Background="#0E2038" BorderBrush="#2A4060"
+                                        BorderThickness="1" CornerRadius="5" Padding="10 8">
+                                    <TextBlock Text="{Binding SelectedView}"
+                                               FontFamily="Consolas" FontSize="11"
+                                               Foreground="#7AAACF"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Border>
+                            </StackPanel>
+
+                            <!-- STORED PROCEDURE -->
+                            <StackPanel Grid.Column="2" Spacing="5">
+                                <TextBlock Classes="SectionTitle" Text="STORED PROCEDURE" />
+                                <Border Background="#0E2038" BorderBrush="#2A4060"
+                                        BorderThickness="1" CornerRadius="5" Padding="10 8">
+                                    <TextBlock Text="{Binding SelectedSP}"
+                                               FontFamily="Consolas" FontSize="11"
+                                               Foreground="#7AAACF"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Border>
+                            </StackPanel>
+
+                        </Grid>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Spacing="3">
-                        <TextBlock Classes="SectionTitle" Text="STORED PROCEDURE" />
-                        <TextBox Classes="FormInput" IsReadOnly="True"
-                                 Text="{Binding SelectedSP}"
-                                 Foreground="#A4C4DE" FontWeight="SemiBold" />
-                    </StackPanel>
-                </Grid>
+                </Border>
 
-                <!-- Row 3: Buttons -->
-                <Grid ColumnDefinitions="*,6,*,6,*">
-                    <Button Grid.Column="0" Classes="PrimaryButton"
-                            Command="{Binding StartCommand}"
-                            HorizontalAlignment="Stretch"
-                            Content="▶  Start" />
-                    <Button Grid.Column="2" Classes="DangerButton"
-                            Command="{Binding CancelCommand}"
-                            HorizontalAlignment="Stretch"
-                            Content="✕  Cancel"
-                            IsEnabled="{Binding IsBusy}" />
-                    <Button Grid.Column="4" Classes="ResetButton"
-                            Command="{Binding ResetCommand}"
-                            HorizontalAlignment="Stretch"
-                            Content="↺  Reset" />
-                </Grid>
+                <!-- ── Row 3: Gradient divider ───────────────────────────── -->
+                <Border Grid.Row="3" Height="1">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                            <GradientStop Color="#244070" Offset="0" />
+                            <GradientStop Color="#1A2E50" Offset="0.5" />
+                            <GradientStop Color="#141E30" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
 
-            </StackPanel>
+                <!-- ── Row 4: Buttons ─────────────────────────────────────── -->
+                <Border Grid.Row="4" Background="#0F1A28" Padding="14 14">
+                    <Grid ColumnDefinitions="*,8,*,8,*">
+                        <Button Grid.Column="0" Classes="PrimaryButton"
+                                Command="{Binding StartCommand}"
+                                HorizontalAlignment="Stretch"
+                                Content="▶  Start" />
+                        <Button Grid.Column="2" Classes="DangerButton"
+                                Command="{Binding CancelCommand}"
+                                HorizontalAlignment="Stretch"
+                                Content="✕  Cancel"
+                                IsEnabled="{Binding IsBusy}" />
+                        <Button Grid.Column="4" Classes="ResetButton"
+                                Command="{Binding ResetCommand}"
+                                HorizontalAlignment="Stretch"
+                                Content="↺  Reset" />
+                    </Grid>
+                </Border>
+
+                <!-- ── Row 5: Bottom accent ───────────────────────────────── -->
+                <Border Grid.Row="5" Height="1" Background="#1C2E44" />
+
+                <!-- ── Row 6: Empty spacer (keeps card bottom clean) ─────── -->
+                <Border Grid.Row="6" Background="#0F1A28" Height="6" />
+
+            </Grid>
         </Border>
 
     </Grid>

@@ -170,8 +170,8 @@
         <Setter Property="Background"        Value="#16A34A" />
         <Setter Property="Foreground"        Value="#ECFDF5" />
         <Setter Property="FontSize"          Value="12" />
-        <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Height"            Value="32" />
+        <Setter Property="FontWeight"        Value="Bold" />
+        <Setter Property="Height"            Value="36" />
         <Setter Property="CornerRadius"      Value="6" />
         <Setter Property="Padding"           Value="14 0" />
         <Setter Property="Cursor"            Value="Hand" />
@@ -198,8 +198,8 @@
         <Setter Property="Background"        Value="#DC2626" />
         <Setter Property="Foreground"        Value="#FEF2F2" />
         <Setter Property="FontSize"          Value="12" />
-        <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Height"            Value="32" />
+        <Setter Property="FontWeight"        Value="Bold" />
+        <Setter Property="Height"            Value="36" />
         <Setter Property="CornerRadius"      Value="6" />
         <Setter Property="Padding"           Value="14 0" />
         <Setter Property="Cursor"            Value="Hand" />
@@ -226,8 +226,8 @@
         <Setter Property="Background"        Value="#7C3AED" />
         <Setter Property="Foreground"        Value="#F5F3FF" />
         <Setter Property="FontSize"          Value="12" />
-        <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Height"            Value="32" />
+        <Setter Property="FontWeight"        Value="Bold" />
+        <Setter Property="Height"            Value="36" />
         <Setter Property="CornerRadius"      Value="6" />
         <Setter Property="Padding"           Value="14 0" />
         <Setter Property="Cursor"            Value="Hand" />
