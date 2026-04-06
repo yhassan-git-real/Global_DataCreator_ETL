@@ -26,7 +26,7 @@
                     <GradientStop Color="#1E3A5F" Offset="1" />
                 </LinearGradientBrush>
             </Border.Background>
-            <Grid ColumnDefinitions="*,Auto,Auto">
+            <Grid ColumnDefinitions="*,Auto">
                 <!-- Left: App identity -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12"
                             Margin="16 0 0 0" VerticalAlignment="Center">
@@ -38,25 +38,8 @@
                                    FontSize="10" Foreground="#94A3B8" />
                     </StackPanel>
                 </StackPanel>
-                <!-- Center-right: Live connection info -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"
-                            VerticalAlignment="Center" Margin="0 0 12 0">
-                    <TextBlock FontSize="11" Foreground="#94A3B8" VerticalAlignment="Center"
-                               Text="{Binding ConnectionInfo.ServerName}" />
-                    <TextBlock FontSize="11" Foreground="#334155" VerticalAlignment="Center" Text="|" />
-                    <TextBlock FontSize="11" Foreground="#94A3B8" VerticalAlignment="Center"
-                               Text="{Binding ConnectionInfo.DatabaseName}" />
-                    <TextBlock FontSize="11" Foreground="#334155" VerticalAlignment="Center" Text="|" />
-                    <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
-                        <Ellipse Width="7" Height="7" VerticalAlignment="Center"
-                                 Fill="{Binding ConnectionInfo.StatusColor}" />
-                        <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="White"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConnectionInfo.StatusMessage}" />
-                    </StackPanel>
-                </StackPanel>
                 <!-- Right: Window controls (Height matches header so no Stretch needed) -->
-                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="0">
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="0">
                     <Button Classes="WinCtrlBtn" Click="MinimizeButton_Click"
                             ToolTip.Tip="Minimize">
                         <TextBlock Text="&#x2212;" FontSize="16" FontWeight="Bold"
