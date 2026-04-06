@@ -4,6 +4,7 @@
        xmlns:vm="using:GlobalDataCreatorETL.UI.ViewModels"
        x:Class="GlobalDataCreatorETL.UI.Views.MainWindow"
        Title="Global DataCreator ETL"
+       Icon="avares://GlobalDataCreatorETL/Asset/favicon.ico"
        Width="1100" Height="740"
        MinWidth="960" MinHeight="640"
        WindowStartupLocation="CenterScreen"
@@ -31,7 +32,11 @@
                 <!-- Left: App identity -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12"
                             Margin="16 0 0 0" VerticalAlignment="Center">
-                    <TextBlock Text="⚡" FontSize="20" VerticalAlignment="Center" Foreground="#F59E0B" />
+                    <Border Width="38" Height="38" CornerRadius="9"
+                            ClipToBounds="True" VerticalAlignment="Center">
+                        <Image Source="avares://GlobalDataCreatorETL/Asset/Logo.png"
+                               Stretch="UniformToFill" />
+                    </Border>
                     <StackPanel VerticalAlignment="Center" Spacing="1">
                         <TextBlock Text="Global DataCreator ETL"
                                    FontSize="15" FontWeight="Bold" Foreground="White" />

@@ -50,6 +50,7 @@
 
   <ItemGroup>
     <AvaloniaResource Include="UI\Assets\**" />
+    <AvaloniaResource Include="Asset\**" />
   </ItemGroup>
 
 </Project>
