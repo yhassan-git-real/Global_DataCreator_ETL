@@ -21,7 +21,7 @@
                 <StackPanel Classes="CardHeaderRow">
                     <Viewbox Classes="HeaderIcon">
                         <Canvas Width="24" Height="24">
-                            <Path Fill="#64748B" Data="M4 14H8V22H4ZM10 10H14V22H10ZM16 6H20V22H16Z" />
+                            <Path Fill="#5B9BF5" Data="M4 14H8V22H4ZM10 10H14V22H10ZM16 6H20V22H16Z" />
                         </Canvas>
                     </Viewbox>
                     <TextBlock Classes="CardHeader" Text="Execution Controls" />
@@ -47,13 +47,13 @@
                         <TextBlock Classes="SectionTitle" Text="VIEW" />
                         <TextBox Classes="FormInput" IsReadOnly="True"
                                  Text="{Binding SelectedView}"
-                                 Foreground="#2563EB" FontWeight="Medium" />
+                                 Foreground="#A4C4DE" FontWeight="SemiBold" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="3">
                         <TextBlock Classes="SectionTitle" Text="STORED PROCEDURE" />
                         <TextBox Classes="FormInput" IsReadOnly="True"
                                  Text="{Binding SelectedSP}"
-                                 Foreground="#2563EB" FontWeight="Medium" />
+                                 Foreground="#A4C4DE" FontWeight="SemiBold" />
                     </StackPanel>
                 </Grid>
 

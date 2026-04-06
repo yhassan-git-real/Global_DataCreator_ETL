@@ -68,7 +68,7 @@ public sealed class EtlOrchestrator
         int total = inputs.TotalCombinations;
 
         if (total > 1)
-            _reporter.ReportPhase("BATCH_START", $"Starting {total} combinations…");
+            _reporter.ReportPhase("BATCH_START", $"Batch initiated — {total} filter combinations queued for processing");
 
         try
         {
@@ -84,8 +84,20 @@ public sealed class EtlOrchestrator
                 combinationIndex++;
 
                 if (total > 1)
-                    _reporter.ReportPhase("COMBINATION",
-                        $"[{combinationIndex}/{total}] HSCode={hsCode}  Product={product}  IECCode={iec}  Company={company}  ForeignCountry={forCountry}  ForeignName={forName}  Port={port}");
+                {
+                    var activeFilters = new List<string>();
+                    if (hsCode     != "%") activeFilters.Add($"HS: {hsCode}");
+                    if (product    != "%") activeFilters.Add($"Product: {product}");
+                    if (iec        != "%") activeFilters.Add($"IEC: {iec}");
+                    if (company    != "%") activeFilters.Add($"Company: {company}");
+                    if (forCountry != "%") activeFilters.Add($"ForeignCountry: {forCountry}");
+                    if (forName    != "%") activeFilters.Add($"ForeignName: {forName}");
+                    if (port       != "%") activeFilters.Add($"Port: {port}");
+                    var filterDesc = activeFilters.Count > 0
+                        ? string.Join("  |  ", activeFilters)
+                        : "All filters: wildcard (%)";
+                    _reporter.ReportPhase("COMBINATION", $"[{combinationIndex}/{total}]  {filterDesc}");
+                }
 
                 var request = new EtlRequest
                 {
@@ -154,7 +166,7 @@ public sealed class EtlOrchestrator
 
         if (total > 1)
             _reporter.ReportPhase("BATCH_DONE",
-                $"Batch complete — {filesGenerated} file(s) generated, {totalRows:N0} total rows.");
+                $"Batch complete — {filesGenerated}/{total} file(s) generated, {failedCount} failed, {totalRows:N0} total rows exported");
 
         return new BatchCompletionResult
         {
@@ -187,12 +199,12 @@ public sealed class EtlOrchestrator
             var isExport = request.Mode.Equals("Export", StringComparison.OrdinalIgnoreCase);
 
             // 2. Build SP parameters
-            _reporter.ReportPhase("PREPARING", "Building parameters…");
+            _reporter.ReportPhase("PREPARING", $"Building SP parameters — target: {request.SpName} [{request.Mode} mode]");
             var spParams = _paramBuilder.Build(request);
             _executionLogger.LogStart(request);
 
             // 3. Execute SP
-            _reporter.ReportPhase("EXECUTING_SP", $"Executing {request.SpName}…");
+            _reporter.ReportPhase("EXECUTING_SP", $"Executing stored procedure: {request.SpName}");
             var spSw = Stopwatch.StartNew();
             if (isExport)
                 await _exportData.ExecuteSpAsync(request.SpName, spParams, ct);
@@ -200,21 +212,21 @@ public sealed class EtlOrchestrator
                 await _importData.ExecuteSpAsync(request.SpName, spParams, ct);
             spSw.Stop();
             _executionLogger.LogSpExecuted(request.SpName, spSw.ElapsedMilliseconds);
-            _reporter.ReportPhase("SP_DONE", $"SP completed in {spSw.ElapsedMilliseconds}ms");
+            _reporter.ReportPhase("SP_DONE", $"Stored procedure completed in {spSw.ElapsedMilliseconds}ms — view data ready");
 
             ct.ThrowIfCancellationRequested();
 
             // 4. Row count pre-check
-            _reporter.ReportPhase("COUNTING", "Counting rows…");
+            _reporter.ReportPhase("COUNTING", $"Querying row count from view: {request.ViewName}");
             long rowCount = isExport
                 ? await _exportData.GetRowCountAsync(request.ViewName, ct)
                 : await _importData.GetRowCountAsync(request.ViewName, ct);
             _executionLogger.LogRowsRead(rowCount);
-            _reporter.ReportPhase("COUNTING", $"Row count: {rowCount:N0}", rowCount);
+            _reporter.ReportPhase("COUNTING", $"View has {rowCount:N0} rows available for export", rowCount);
 
             if (rowCount == 0)
             {
-                _reporter.ReportPhase("NO_DATA", "No data returned. File not generated.");
+                _reporter.ReportPhase("NO_DATA", $"No data found in {request.ViewName} for the selected filters — file not generated");
                 return new CompletionResult
                 {
                     Success = true,
@@ -236,7 +248,7 @@ public sealed class EtlOrchestrator
             }
 
             // 5. Read column schema — use ViewName (mode-aware) not TableName
-            _reporter.ReportPhase("SCHEMA", $"Reading column schema for {request.ViewName}…");
+            _reporter.ReportPhase("SCHEMA", $"Reading column schema from INFORMATION_SCHEMA — view: {request.ViewName}");
             var schema = await _schemaReader.GetColumnInfoAsync(request.ViewName, ct);
 
             ct.ThrowIfCancellationRequested();
@@ -246,7 +258,7 @@ public sealed class EtlOrchestrator
             outputFilePath = Path.Combine(request.OutputDirectory, fileName);
 
             // 7. Stream view → Excel
-            _reporter.ReportPhase("READING_DATA", $"Reading data from {request.ViewName}…");
+            _reporter.ReportPhase("READING_DATA", $"Opening data stream — {rowCount:N0} rows from {request.ViewName}");
             SqlConnection? conn = null;
             SqlDataReader? reader = null;
             try
@@ -256,7 +268,7 @@ public sealed class EtlOrchestrator
                 else
                     (conn, reader) = await _importData.GetDataReaderAsync(request.ViewName, ct);
 
-                _reporter.ReportPhase("GENERATING_EXCEL", "Generating Excel file…");
+                _reporter.ReportPhase("GENERATING_EXCEL", $"Building Excel workbook — {rowCount:N0} rows x {schema.Count} columns");
                 await _excelService.GenerateAsync(reader, rowCount, schema, request, outputFilePath, ct);
             }
             finally
@@ -268,7 +280,7 @@ public sealed class EtlOrchestrator
             sw.Stop();
             _executionLogger.LogFileSaved(outputFilePath);
             _successLogger.LogSuccess(request, outputFilePath, rowCount, sw.Elapsed);
-            _reporter.ReportPhase("DONE", $"File saved: {fileName}", rowCount);
+            _reporter.ReportPhase("DONE", $"File saved: {fileName}  [{rowCount:N0} rows | {schema.Count} cols | {sw.Elapsed.TotalSeconds:F1}s]", rowCount);
 
             return new CompletionResult
             {
@@ -286,7 +298,7 @@ public sealed class EtlOrchestrator
         {
             sw.Stop();
             SafeDeletePartialFile(outputFilePath);
-            _reporter.ReportPhase("CANCELLED", "Operation was cancelled.");
+            _reporter.ReportPhase("CANCELLED", "Operation cancelled by user — partial file removed");
             return Fail(request, "Operation cancelled by user.", sw.Elapsed);
         }
         catch (Exception ex)

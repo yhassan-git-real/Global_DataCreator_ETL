@@ -22,11 +22,11 @@ public sealed partial class MainViewModel
     {
         try
         {
-            StatusMessage = "Connecting to database…";
-            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = "Connecting to database…" });
+            StatusMessage = "Connecting to SQL Server...";
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = "Connecting to SQL Server (Matrix,1434) — database: Process" });
             await _services.ConnectAsync();
             await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(UpdateConnectionInfo);
-            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = "Connected successfully" });
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = "Connection established — SQL Server online and responsive" });
         }
         catch (Exception ex)
         {
@@ -41,7 +41,7 @@ public sealed partial class MainViewModel
     {
         try
         {
-            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = "Loading countries…" });
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = "Loading active countries from dbo.mst_country" });
             var list = await _services.CountryService.GetAllActiveCountriesAsync();
             _ = Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -52,7 +52,7 @@ public sealed partial class MainViewModel
                 if (Countries.Count > 0)
                     SelectedCountry = Countries[0];
 
-                StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = $"Loaded {Countries.Count} countries" });
+                StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = $"Loaded {Countries.Count} active countries — application is ready" });
             });
         }
         catch (Exception ex)

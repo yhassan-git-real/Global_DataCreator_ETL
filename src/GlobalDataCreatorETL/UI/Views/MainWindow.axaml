@@ -7,7 +7,7 @@
        Width="1100" Height="740"
        MinWidth="960" MinHeight="640"
        WindowStartupLocation="CenterScreen"
-       Background="#F1F5F9"
+       Background="#1A2235"
        ExtendClientAreaToDecorationsHint="True"
        ExtendClientAreaChromeHints="NoChrome"
        ExtendClientAreaTitleBarHeightHint="0">
@@ -22,20 +22,21 @@
                 DoubleTapped="TitleBar_DoubleTapped">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
-                    <GradientStop Color="#0F172A" Offset="0" />
-                    <GradientStop Color="#1E3A5F" Offset="1" />
+                    <GradientStop Color="#141D30" Offset="0" />
+                    <GradientStop Color="#1C1840" Offset="0.6" />
+                    <GradientStop Color="#201538" Offset="1" />
                 </LinearGradientBrush>
             </Border.Background>
             <Grid ColumnDefinitions="*,Auto">
                 <!-- Left: App identity -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12"
                             Margin="16 0 0 0" VerticalAlignment="Center">
-                    <TextBlock Text="⚡" FontSize="20" VerticalAlignment="Center" Foreground="White" />
+                    <TextBlock Text="⚡" FontSize="20" VerticalAlignment="Center" Foreground="#F59E0B" />
                     <StackPanel VerticalAlignment="Center" Spacing="1">
                         <TextBlock Text="Global DataCreator ETL"
                                    FontSize="15" FontWeight="Bold" Foreground="White" />
                         <TextBlock Text="Trade Data Extraction &amp; Excel Generation"
-                                   FontSize="10" Foreground="#94A3B8" />
+                                   FontSize="10" Foreground="#607888" />
                     </StackPanel>
                 </StackPanel>
                 <!-- Right: Window controls (Height matches header so no Stretch needed) -->
@@ -70,7 +71,7 @@
                 <StackPanel Classes="CardHeaderRow">
                         <Viewbox Classes="HeaderIcon">
                             <Canvas Width="24" Height="24">
-                                <Path Fill="#64748B" Data="M4 4H20L14 11V17L10 17V11Z" />
+                                <Path Fill="#5B9BF5" Data="M4 4H20L14 11V17L10 17V11Z" />
                             </Canvas>
                         </Viewbox>
                         <TextBlock Classes="CardHeader" Text="Filter Parameters" />

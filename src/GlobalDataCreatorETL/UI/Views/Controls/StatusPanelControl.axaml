@@ -3,80 +3,164 @@
             xmlns:models="using:GlobalDataCreatorETL.UI.Models"
             x:Class="GlobalDataCreatorETL.UI.Views.Controls.StatusPanelControl">
 
-    <Border Classes="Card" Padding="12" Margin="0">
-        <Grid RowDefinitions="Auto,Auto,Auto,4,Auto,6,Auto,2,*">
+    <!-- Padding overridden to 0 so inner zones can fill edge-to-edge inside the card border -->
+    <Border Classes="Card" Padding="0" Margin="0" ClipToBounds="True">
+        <Grid RowDefinitions="Auto,2,Auto,Auto,1,Auto,1,*">
 
-            <!-- ── Row 0: Panel header + Country + Output ───────────────────── -->
-            <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,Auto,Auto,20,Auto,Auto,*">
-                <Viewbox Grid.Column="0" Classes="HeaderIcon">
-                    <Canvas Width="24" Height="24">
-                        <Path Fill="#64748B" Data="M2 4H22V8H2ZM2 11H22V15H2ZM2 18H16V22H2Z" />
-                    </Canvas>
-                </Viewbox>
-                <TextBlock Grid.Column="1" Classes="CardHeader" Text="Execution Log" />
-                <TextBlock Grid.Column="3" Classes="FieldLabel" Text="Country:" VerticalAlignment="Center" />
-                <TextBlock Grid.Column="4" FontSize="11" FontWeight="SemiBold"
-                           Foreground="Black"
-                           Text="{Binding SelectedCountry.Name}"
-                           VerticalAlignment="Center" Margin="4 0 0 0"
-                           TextTrimming="CharacterEllipsis" />
-                <TextBlock Grid.Column="6" Classes="FieldLabel" Text="Output:" VerticalAlignment="Center" />
-                <TextBlock Grid.Column="7" FontSize="11"
-                           Foreground="Black"
-                           Text="{Binding OutputFilePath}"
-                           VerticalAlignment="Center" Margin="4 0 0 0"
-                           TextTrimming="CharacterEllipsis" />
-            </Grid>
+            <!-- ═══ Row 0: Header Banner ═══════════════════════════════════════ -->
+            <Border Grid.Row="0" Background="#17263C" Padding="14 10">
+                <Grid ColumnDefinitions="Auto,10,Auto,*,Auto">
 
-            <!-- ── Row 1: Divider ───────────────────────────────────────────── -->
-            <Border Grid.Row="1" Classes="Divider" />
+                    <!-- Left: icon -->
+                    <Viewbox Grid.Column="0" Width="24" Height="24"
+                             VerticalAlignment="Center" Stretch="Uniform">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="#5B9BF5"
+                                  Data="M4 5H20V7H4ZM4 10H20V12H4ZM4 15H14V17H4Z" />
+                        </Canvas>
+                    </Viewbox>
 
-            <!-- ── Row 2: Status bar ────────────────────────────────────────── -->
-            <Grid Grid.Row="2" ColumnDefinitions="Auto,6,Auto,*,Auto,10,Auto"
-                  MinHeight="20">
+                    <!-- Title + subtitle -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="2">
+                        <TextBlock Text="EXECUTION LOG"
+                                   FontSize="13" FontWeight="Bold" LetterSpacing="1.4"
+                                   Foreground="#D4E8F8"
+                                   FontFamily="Segoe UI, Inter, sans-serif" />
+                        <TextBlock Text="ETL Pipeline Monitor"
+                                   FontSize="9" LetterSpacing="0.5"
+                                   Foreground="#3A566E"
+                                   FontFamily="Segoe UI, Inter, sans-serif" />
+                    </StackPanel>
+
+                    <!-- Right: Country chip + Output chip -->
+                    <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="10"
+                                VerticalAlignment="Center">
+
+                        <!-- Country chip -->
+                        <Border Background="#0C1C2C" BorderBrush="#243450" BorderThickness="1"
+                                CornerRadius="5" Padding="9 4">
+                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                <TextBlock Text="COUNTRY" FontSize="8" FontWeight="Bold"
+                                           LetterSpacing="0.8" Foreground="#365270"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe UI, Inter, sans-serif" />
+                                <Border Width="1" Background="#243450"
+                                        VerticalAlignment="Stretch" Margin="0 1" />
+                                <TextBlock Text="{Binding SelectedCountry.Name}"
+                                           FontSize="11" FontWeight="SemiBold"
+                                           Foreground="#C8E0F4" VerticalAlignment="Center"
+                                           FontFamily="Segoe UI, Inter, sans-serif" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Output chip -->
+                        <Border Background="#0C1C2C" BorderBrush="#243450" BorderThickness="1"
+                                CornerRadius="5" Padding="9 4" MaxWidth="520">
+                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                <TextBlock Text="OUTPUT" FontSize="8" FontWeight="Bold"
+                                           LetterSpacing="0.8" Foreground="#365270"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe UI, Inter, sans-serif" />
+                                <Border Width="1" Background="#243450"
+                                        VerticalAlignment="Stretch" Margin="0 1" />
+                                <TextBlock Text="{Binding OutputFilePath}"
+                                           FontSize="10" FontFamily="Consolas"
+                                           Foreground="#547090" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ═══ Row 1: Blue gradient accent line ════════════════════════════ -->
+            <Border Grid.Row="1" Height="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#4A8EE8" Offset="0" />
+                        <GradientStop Color="#2C5CB0" Offset="0.4" />
+                        <GradientStop Color="#1E2E44" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <!-- ═══ Row 2: Status + Metrics bar ═════════════════════════════════ -->
+            <Border Grid.Row="2" Background="#121C2C" Padding="14 7">
+              <Grid ColumnDefinitions="Auto,6,Auto,*,Auto,10,Auto,10,Auto">
+
+                <!-- Status dot -->
                 <Ellipse Grid.Column="0" Classes="StatusDot"
                          Fill="{Binding SystemStatusColor}" />
+
+                <!-- Status label -->
                 <TextBlock Grid.Column="2"
-                           FontWeight="SemiBold" FontSize="11"
+                           FontWeight="Bold" FontSize="11"
                            Text="{Binding SystemStatusMessage}"
                            Foreground="{Binding SystemStatusColor}"
-                           VerticalAlignment="Center" />
-                <TextBlock Grid.Column="3" FontSize="11" Foreground="#64748B"
-                           Text="{Binding CurrentStepPhase}"
-                           VerticalAlignment="Center" Margin="8 0 0 0"
-                           TextTrimming="CharacterEllipsis" />
-                <TextBlock Grid.Column="4" FontSize="11" Foreground="#475569"
-                           Text="{Binding ElapsedTime}" FontFamily="Consolas"
-                           VerticalAlignment="Center" />
-                <TextBlock Grid.Column="6" FontSize="11" Foreground="#1565C0"
-                           FontWeight="SemiBold"
-                           Text="{Binding RecordCount, StringFormat='{}{0:N0} rows'}"
-                           VerticalAlignment="Center" />
-            </Grid>
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe UI, Inter, sans-serif" />
 
-            <!-- ── Row 4: Progress bar (visible only while busy) ────────────── -->
-            <ProgressBar Grid.Row="4"
+                <!-- Current phase description -->
+                <TextBlock Grid.Column="3" FontSize="10" Foreground="#364E64"
+                           Text="{Binding CurrentStepPhase}"
+                           VerticalAlignment="Center" Margin="10 0 0 0"
+                           TextTrimming="CharacterEllipsis"
+                           FontFamily="Segoe UI, Inter, sans-serif" />
+
+                <!-- Elapsed time chip -->
+                <Border Grid.Column="6" Background="#0C1C2C" BorderBrush="#243450"
+                        BorderThickness="1" CornerRadius="5" Padding="9 3">
+                    <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#5A8098"
+                               Text="{Binding ElapsedTime}" VerticalAlignment="Center" />
+                </Border>
+
+                <!-- Row count chip -->
+                <Border Grid.Column="8" Background="#091C38" BorderBrush="#1A4070"
+                        BorderThickness="1" CornerRadius="5" Padding="9 3">
+                    <TextBlock FontFamily="Segoe UI, Inter, sans-serif"
+                               FontSize="11" FontWeight="SemiBold" Foreground="#5AAAF0"
+                               Text="{Binding RecordCount, StringFormat='{}{0:N0} rows'}"
+                               VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+            </Border>
+
+            <!-- ═══ Row 3: Progress bar (auto-collapses when not busy) ══════════ -->
+            <ProgressBar Grid.Row="3"
                          IsIndeterminate="{Binding IsBusy}"
                          Value="{Binding ProgressValue}"
                          Minimum="0" Maximum="100"
-                         Height="3" CornerRadius="2"
-                         Foreground="#27AE60"
-                         Background="#E8ECF0"
+                         Height="3" CornerRadius="0"
+                         Foreground="#16A34A"
+                         Background="#0C1420"
                          IsVisible="{Binding IsBusy}" />
 
-            <!-- ── Row 6: Log column headers ────────────────────────────────── -->
-            <Grid Grid.Row="6" ColumnDefinitions="60,8,100,8,*"
-                  Margin="10 0 10 0">
-                <TextBlock Grid.Column="0" Classes="LogColumnHeader" Text="TIME" />
-                <TextBlock Grid.Column="2" Classes="LogColumnHeader" Text="STAGE" />
-                <TextBlock Grid.Column="4" Classes="LogColumnHeader" Text="DETAILS" />
-            </Grid>
+            <!-- ═══ Row 4: Column header top separator ════════════════════════= -->
+            <Border Grid.Row="4" Height="1" Background="#1C2E44" />
 
-            <!-- ── Row 8: Virtualized log list ──────────────────────────────── -->
-            <Border Grid.Row="8"
-                    Background="#F8FAFC"
-                    BorderBrush="#E2E8F0" BorderThickness="1"
-                    CornerRadius="5">
+            <!-- ═══ Row 5: Column header band ════════════════════════════════== -->
+            <Border Grid.Row="5" Background="#0F1B2B" Padding="14 5">
+                <Grid ColumnDefinitions="60,8,100,8,*">
+                    <TextBlock Grid.Column="0" Classes="LogColumnHeader" Text="TIME" />
+                    <TextBlock Grid.Column="2" Classes="LogColumnHeader" Text="STAGE" />
+                    <TextBlock Grid.Column="4" Classes="LogColumnHeader" Text="DETAILS" />
+                </Grid>
+            </Border>
+
+            <!-- ═══ Row 6: Column header bottom accent line ═══════════════════= -->
+            <Border Grid.Row="6" Height="1">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="#244070" Offset="0" />
+                        <GradientStop Color="#1A2E50" Offset="0.5" />
+                        <GradientStop Color="#141E30" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <!-- ═══ Row 7: Virtualized log list ══════════════════════════════== -->
+            <Border Grid.Row="7" Background="#16202E">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding StatusLogs}">
@@ -87,10 +171,9 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="models:LogEntry">
-                                <!-- Row wrapper: bottom border gives row separation -->
-                                <Border BorderBrush="#EDF2F7" BorderThickness="0 0 0 1"
-                                        Padding="10 0">
-                                    <Grid ColumnDefinitions="60,8,100,8,*" MinHeight="26">
+                                <Border BorderBrush="#1A2A3C" BorderThickness="0 0 0 1"
+                                        Padding="14 0">
+                                    <Grid ColumnDefinitions="60,8,100,8,*" MinHeight="28">
 
                                         <!-- Time -->
                                         <TextBlock Grid.Column="0"
