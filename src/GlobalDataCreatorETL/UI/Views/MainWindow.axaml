@@ -62,12 +62,13 @@
         <!-- ═══ Row 1: Menu Bar (hidden) ══════════════════════════════════ -->
 
         <!-- ═══ Row 2: Main Content ══════════════════════════════════════════ -->
-        <Grid Grid.Row="2" RowDefinitions="Auto,*" Margin="20 14">
+        <Grid Grid.Row="2" RowDefinitions="Auto,*" Margin="16 10">
 
             <!-- ── Group 1: Filter Parameters ───────────────────────── -->
-            <Border Grid.Row="0" Classes="Card" Margin="0 0 0 12">
+            <Border Grid.Row="0" Classes="Card" Margin="0 0 0 8">
                 <StackPanel Spacing="0">
                     <TextBlock Classes="CardHeader" Text="Filter Parameters" />
+                    <Border Classes="Divider" />
                     <controls:InputFieldsControl />
                 </StackPanel>
             </Border>

@@ -11,11 +11,25 @@
     ╚══════════════════════════════════════════════════════════════════════╝
     -->
 
+    <!-- ── Base font ─────────────────────────────────────────────────────── -->
+    <Style Selector="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+    <Style Selector="TextBox">
+        <Setter Property="FontFamily" Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+    <Style Selector="ComboBox">
+        <Setter Property="FontFamily" Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+    <Style Selector="Button">
+        <Setter Property="FontFamily" Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+
     <!-- ── Card ──────────────────────────────────────────────────────────── -->
     <Style Selector="Border.Card">
         <Setter Property="Background"        Value="#FFFFFF" />
         <Setter Property="CornerRadius"      Value="8" />
-        <Setter Property="Padding"           Value="16" />
+        <Setter Property="Padding"           Value="12" />
         <Setter Property="BorderBrush"       Value="#E2E8F0" />
         <Setter Property="BorderThickness"   Value="1" />
         <Setter Property="BoxShadow"         Value="0 1 4 0 #0F172A10" />
@@ -25,16 +39,26 @@
         <Setter Property="FontSize"          Value="14" />
         <Setter Property="FontWeight"        Value="SemiBold" />
         <Setter Property="Foreground"        Value="#0F172A" />
-        <Setter Property="Margin"            Value="0 0 0 14" />
+        <Setter Property="Margin"            Value="0 2 0 10" />
+        <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+
+    <!-- ── Section divider ───────────────────────────────────────────────── -->
+    <Style Selector="Border.Divider">
+        <Setter Property="Height"            Value="1" />
+        <Setter Property="Background"        Value="#E8ECF0" />
+        <Setter Property="Margin"            Value="0 0 0 8" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>
 
     <!-- ── Section Group ─────────────────────────────────────────────────── -->
     <Style Selector="TextBlock.SectionTitle">
         <Setter Property="FontSize"          Value="10" />
-        <Setter Property="FontWeight"        Value="Bold" />
-        <Setter Property="Foreground"        Value="#94A3B8" />
-        <Setter Property="LetterSpacing"     Value="1.5" />
-        <Setter Property="Margin"            Value="0 0 0 6" />
+        <Setter Property="FontWeight"        Value="SemiBold" />
+        <Setter Property="Foreground"        Value="#475569" />
+        <Setter Property="LetterSpacing"     Value="1" />
+        <Setter Property="Margin"            Value="0 0 0 4" />
+        <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>
 
     <Style Selector="Border.SectionGroup">
@@ -42,29 +66,31 @@
         <Setter Property="BorderBrush"       Value="#E2E8F0" />
         <Setter Property="BorderThickness"   Value="1" />
         <Setter Property="CornerRadius"      Value="6" />
-        <Setter Property="Padding"           Value="12 10" />
+        <Setter Property="Padding"           Value="10 6" />
     </Style>
 
     <!-- ── Labels ────────────────────────────────────────────────────────── -->
     <Style Selector="TextBlock.FieldLabel">
-        <Setter Property="FontSize"          Value="12" />
+        <Setter Property="FontSize"          Value="11" />
         <Setter Property="FontWeight"        Value="SemiBold" />
         <Setter Property="Foreground"        Value="#374151" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin"            Value="0 0 6 0" />
+        <Setter Property="Margin"            Value="0 0 0 2" />
+        <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>
 
     <!-- ── TextBox ───────────────────────────────────────────────────────── -->
     <Style Selector="TextBox.FormInput">
-        <Setter Property="Height"            Value="32" />
-        <Setter Property="FontSize"          Value="13" />
-        <Setter Property="Padding"           Value="10 0" />
+        <Setter Property="Height"            Value="28" />
+        <Setter Property="FontSize"          Value="12" />
+        <Setter Property="Padding"           Value="8 0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius"      Value="5" />
         <Setter Property="BorderBrush"       Value="#D1D5DB" />
         <Setter Property="BorderThickness"   Value="1" />
         <Setter Property="Background"        Value="#FFFFFF" />
         <Setter Property="Foreground"        Value="#111827" />
+        <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>
 
     <Style Selector="TextBox.FormInput:focus">
@@ -74,9 +100,9 @@
 
     <!-- ── ComboBox ──────────────────────────────────────────────────────── -->
     <Style Selector="ComboBox.FormComboBox">
-        <Setter Property="Height"            Value="32" />
-        <Setter Property="FontSize"          Value="13" />
-        <Setter Property="Padding"           Value="10 0" />
+        <Setter Property="Height"            Value="28" />
+        <Setter Property="FontSize"          Value="12" />
+        <Setter Property="Padding"           Value="8 0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="CornerRadius"      Value="5" />
         <Setter Property="BorderBrush"       Value="#D1D5DB" />
@@ -85,6 +111,7 @@
         <Setter Property="Foreground"        Value="#111827" />
         <Setter Property="HorizontalAlignment"  Value="Stretch" />
         <Setter Property="MaxDropDownHeight" Value="260" />
+        <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>
 
     <Style Selector="ComboBox.FormComboBox:focus">
@@ -93,26 +120,30 @@
 
     <!-- ── RadioButton ───────────────────────────────────────────────────── -->
     <Style Selector="RadioButton.FormRadio">
-        <Setter Property="FontSize"          Value="13" />
+        <Setter Property="FontSize"          Value="12" />
         <Setter Property="Foreground"        Value="#374151" />
         <Setter Property="Margin"            Value="0 0 16 0" />
+        <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>
 
     <!-- ── Buttons ───────────────────────────────────────────────────────── -->
 
-    <!-- START — solid green, strong visual weight -->
+    <!-- START — solid green -->
     <Style Selector="Button.PrimaryButton">
         <Setter Property="Background"        Value="#16A34A" />
         <Setter Property="Foreground"        Value="#FFFFFF" />
-        <Setter Property="FontSize"          Value="13" />
+        <Setter Property="FontSize"          Value="12" />
         <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Height"            Value="36" />
+        <Setter Property="Height"            Value="32" />
         <Setter Property="CornerRadius"      Value="6" />
-        <Setter Property="Padding"           Value="16 0" />
+        <Setter Property="Padding"           Value="14 0" />
         <Setter Property="Cursor"            Value="Hand" />
         <Setter Property="BorderThickness"   Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment"   Value="Center" />
+    </Style>
+    <Style Selector="Button.PrimaryButton /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#16A34A" />
     </Style>
     <Style Selector="Button.PrimaryButton:pointerover /template/ ContentPresenter">
         <Setter Property="Background"        Value="#15803D" />
@@ -121,55 +152,65 @@
         <Setter Property="Background"        Value="#14532D" />
     </Style>
     <Style Selector="Button.PrimaryButton:disabled /template/ ContentPresenter">
-        <Setter Property="Background"        Value="#BBF7D0" />
-        <Setter Property="Opacity"           Value="0.7" />
+        <Setter Property="Background"        Value="#16A34A" />
+        <Setter Property="Opacity"           Value="0.45" />
     </Style>
 
-    <!-- CANCEL — low-emphasis soft red -->
+    <!-- CANCEL — solid red, always visible (never washed out) -->
     <Style Selector="Button.DangerButton">
-        <Setter Property="Background"        Value="#FEE2E2" />
-        <Setter Property="Foreground"        Value="#B91C1C" />
-        <Setter Property="FontSize"          Value="13" />
-        <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Height"            Value="36" />
-        <Setter Property="CornerRadius"      Value="6" />
-        <Setter Property="Padding"           Value="16 0" />
-        <Setter Property="Cursor"            Value="Hand" />
-        <Setter Property="BorderBrush"       Value="#FECACA" />
-        <Setter Property="BorderThickness"   Value="1" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment"   Value="Center" />
-    </Style>
-    <Style Selector="Button.DangerButton:pointerover /template/ ContentPresenter">
-        <Setter Property="Background"        Value="#FECACA" />
-    </Style>
-    <Style Selector="Button.DangerButton:pressed /template/ ContentPresenter">
-        <Setter Property="Background"        Value="#FCA5A5" />
-    </Style>
-    <Style Selector="Button.DangerButton:disabled /template/ ContentPresenter">
-        <Setter Property="Background"        Value="#FEF2F2" />
-        <Setter Property="Opacity"           Value="0.7" />
-    </Style>
-
-    <!-- RESET — neutral slate -->
-    <Style Selector="Button.ResetButton">
-        <Setter Property="Background"        Value="#64748B" />
+        <Setter Property="Background"        Value="#DC2626" />
         <Setter Property="Foreground"        Value="#FFFFFF" />
-        <Setter Property="FontSize"          Value="13" />
+        <Setter Property="FontSize"          Value="12" />
         <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Height"            Value="36" />
+        <Setter Property="Height"            Value="32" />
         <Setter Property="CornerRadius"      Value="6" />
-        <Setter Property="Padding"           Value="16 0" />
+        <Setter Property="Padding"           Value="14 0" />
         <Setter Property="Cursor"            Value="Hand" />
         <Setter Property="BorderThickness"   Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment"   Value="Center" />
     </Style>
+    <Style Selector="Button.DangerButton /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#DC2626" />
+    </Style>
+    <Style Selector="Button.DangerButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#B91C1C" />
+    </Style>
+    <Style Selector="Button.DangerButton:pressed /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#991B1B" />
+    </Style>
+    <!-- Disabled: keep red but dim — never goes grey/white -->
+    <Style Selector="Button.DangerButton:disabled /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#DC2626" />
+        <Setter Property="Opacity"           Value="0.45" />
+    </Style>
+
+    <!-- RESET — solid blue -->
+    <Style Selector="Button.ResetButton">
+        <Setter Property="Background"        Value="#2563EB" />
+        <Setter Property="Foreground"        Value="#FFFFFF" />
+        <Setter Property="FontSize"          Value="12" />
+        <Setter Property="FontWeight"        Value="SemiBold" />
+        <Setter Property="Height"            Value="32" />
+        <Setter Property="CornerRadius"      Value="6" />
+        <Setter Property="Padding"           Value="14 0" />
+        <Setter Property="Cursor"            Value="Hand" />
+        <Setter Property="BorderThickness"   Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment"   Value="Center" />
+    </Style>
+    <Style Selector="Button.ResetButton /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#2563EB" />
+    </Style>
     <Style Selector="Button.ResetButton:pointerover /template/ ContentPresenter">
-        <Setter Property="Background"        Value="#475569" />
+        <Setter Property="Background"        Value="#1D4ED8" />
     </Style>
     <Style Selector="Button.ResetButton:pressed /template/ ContentPresenter">
-        <Setter Property="Background"        Value="#334155" />
+        <Setter Property="Background"        Value="#1E40AF" />
+    </Style>
+    <Style Selector="Button.ResetButton:disabled /template/ ContentPresenter">
+        <Setter Property="Background"        Value="#2563EB" />
+        <Setter Property="Opacity"           Value="0.45" />
     </Style>
 
     <!-- OUTLINE — secondary ghost action -->
@@ -178,10 +219,10 @@
         <Setter Property="Foreground"        Value="#2563EB" />
         <Setter Property="BorderBrush"       Value="#BFDBFE" />
         <Setter Property="BorderThickness"   Value="1" />
-        <Setter Property="FontSize"          Value="12" />
-        <Setter Property="Height"            Value="32" />
+        <Setter Property="FontSize"          Value="11" />
+        <Setter Property="Height"            Value="28" />
         <Setter Property="CornerRadius"      Value="5" />
-        <Setter Property="Padding"           Value="10 0" />
+        <Setter Property="Padding"           Value="8 0" />
         <Setter Property="Cursor"            Value="Hand" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment"   Value="Center" />
@@ -199,10 +240,10 @@
 
     <!-- ── Status dot ────────────────────────────────────────────────────── -->
     <Style Selector="Ellipse.StatusDot">
-        <Setter Property="Width"             Value="8" />
-        <Setter Property="Height"            Value="8" />
+        <Setter Property="Width"             Value="7" />
+        <Setter Property="Height"            Value="7" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin"            Value="0 0 6 0" />
+        <Setter Property="Margin"            Value="0 0 0 0" />
     </Style>
 
     <!-- ── Footer bar ────────────────────────────────────────────────────── -->
@@ -227,8 +268,6 @@
     </Style>
 
     <!-- ── Window Control Buttons (custom title bar) ─────────────────────── -->
-    <!--  Height="50" matches the explicit header Border height so the buttons  -->
-    <!--  have a concrete size on the very first layout pass.                   -->
     <Style Selector="Button.WinCtrlBtn">
         <Setter Property="Background"                  Value="Transparent" />
         <Setter Property="BorderThickness"             Value="0" />

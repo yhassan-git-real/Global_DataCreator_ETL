@@ -1,21 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="using:GlobalDataCreatorETL.UI.Converters"
-             xmlns:helpers="using:GlobalDataCreatorETL.UI.Helpers"
-             x:Class="GlobalDataCreatorETL.UI.Views.Controls.InputFieldsControl">
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:converters="using:GlobalDataCreatorETL.UI.Converters"
+            xmlns:helpers="using:GlobalDataCreatorETL.UI.Helpers"
+            x:Class="GlobalDataCreatorETL.UI.Views.Controls.InputFieldsControl">
 
     <UserControl.Resources>
         <converters:MonthIndexConverter x:Key="MonthIndex" />
     </UserControl.Resources>
 
-    <StackPanel Spacing="10">
+    <StackPanel Spacing="7">
 
-        <!-- ── Row 1: From | To | HS Code ──────────────────────────────── -->
-        <Grid ColumnDefinitions="*,12,*,12,*">
+        <!-- ── Row 1: Date From | Date To | HS Code ────────────────────── -->
+        <Grid ColumnDefinitions="*,8,*,8,*">
 
-            <StackPanel Grid.Column="0" Spacing="4">
-                <TextBlock Classes="FieldLabel" Text="From" />
-                <Grid ColumnDefinitions="*,6,72">
+            <StackPanel Grid.Column="0" Spacing="3">
+                <TextBlock Classes="FieldLabel" Text="Date From" />
+                <Grid ColumnDefinitions="*,4,64">
                     <ComboBox Grid.Column="0" Classes="FormComboBox"
                               SelectedIndex="{Binding Filter.FromMonth, Converter={StaticResource MonthIndex}}"
                               ItemsSource="{x:Static helpers:DateHelpers.MonthNames}" />
@@ -25,9 +25,9 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Spacing="4">
-                <TextBlock Classes="FieldLabel" Text="To" />
-                <Grid ColumnDefinitions="*,6,72">
+            <StackPanel Grid.Column="2" Spacing="3">
+                <TextBlock Classes="FieldLabel" Text="Date To" />
+                <Grid ColumnDefinitions="*,4,64">
                     <ComboBox Grid.Column="0" Classes="FormComboBox"
                               SelectedIndex="{Binding Filter.ToMonth, Converter={StaticResource MonthIndex}}"
                               ItemsSource="{x:Static helpers:DateHelpers.MonthNames}" />
@@ -37,7 +37,7 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Column="4" Spacing="4">
+            <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="HS Code" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.HsCode}"
@@ -46,24 +46,24 @@
 
         </Grid>
 
-        <!-- ── Row 2: Product | IEC Code | Company ─────────────────────── -->
-        <Grid ColumnDefinitions="*,12,*,12,*">
+        <!-- ── Row 2: Product | IEC Code | Company ──────────────────────── -->
+        <Grid ColumnDefinitions="*,8,*,8,*">
 
-            <StackPanel Grid.Column="0" Spacing="4">
+            <StackPanel Grid.Column="0" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Product" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.Product}"
                          Watermark="Product description" />
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Spacing="4">
+            <StackPanel Grid.Column="2" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="IEC Code" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.IecCode}"
                          Watermark="IEC number" />
             </StackPanel>
 
-            <StackPanel Grid.Column="4" Spacing="4">
+            <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="{Binding CompanyLabel}" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.CompanyName}"
@@ -72,24 +72,24 @@
 
         </Grid>
 
-        <!-- ── Row 3: Foreign Country Code | Foreign Name | Port ────────── -->
-        <Grid ColumnDefinitions="*,12,*,12,*">
+        <!-- ── Row 3: Foreign Country Code | Foreign Name | Port ─────────── -->
+        <Grid ColumnDefinitions="*,8,*,8,*">
 
-            <StackPanel Grid.Column="0" Spacing="4">
+            <StackPanel Grid.Column="0" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Foreign Country Code" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.ForeignCountryCode}"
                          Watermark="e.g. USA, CHN" />
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Spacing="4">
+            <StackPanel Grid.Column="2" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Foreign Name" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.ForeignName}"
                          Watermark="Foreign party name" />
             </StackPanel>
 
-            <StackPanel Grid.Column="4" Spacing="4">
+            <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Port" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.Port}"
@@ -98,9 +98,9 @@
 
         </Grid>
 
-        <!-- ── Row 4: Country | Excel File Name | Output Directory ──────── -->
-        <Grid ColumnDefinitions="*,12,*,12,*">
-            <StackPanel Grid.Column="0" Spacing="4">
+        <!-- ── Row 4: Country | Excel File Name | Output Directory ─────── -->
+        <Grid ColumnDefinitions="*,8,*,8,*">
+            <StackPanel Grid.Column="0" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Country" />
                 <ComboBox Classes="FormComboBox"
                           ItemsSource="{Binding Countries}"
@@ -108,15 +108,15 @@
                           DisplayMemberBinding="{Binding Name}"
                           PlaceholderText="Select country…" />
             </StackPanel>
-            <StackPanel Grid.Column="2" Spacing="4">
+            <StackPanel Grid.Column="2" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Excel File Name" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.UserFileName}"
                          Watermark="Auto-generated if blank" />
             </StackPanel>
-            <StackPanel Grid.Column="4" Spacing="4">
+            <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Output Directory" />
-                <Grid ColumnDefinitions="*,6,Auto">
+                <Grid ColumnDefinitions="*,4,Auto">
                     <TextBox Grid.Column="0" Classes="FormInput"
                              Text="{Binding Filter.OutputDirectory}"
                              Watermark="Select output folder…" />
