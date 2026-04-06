@@ -4,24 +4,32 @@
        xmlns:vm="using:GlobalDataCreatorETL.UI.ViewModels"
        x:Class="GlobalDataCreatorETL.UI.Views.MainWindow"
        Title="Global DataCreator ETL"
-       Width="1280" Height="820"
+       Width="1100" Height="740"
        MinWidth="960" MinHeight="640"
        WindowStartupLocation="CenterScreen"
-       Background="#F1F5F9">
+       Background="#F1F5F9"
+       ExtendClientAreaToDecorationsHint="True"
+       ExtendClientAreaChromeHints="NoChrome"
+       ExtendClientAreaTitleBarHeightHint="0">
 
     <Grid RowDefinitions="Auto,0,*,Auto">
 
-        <!-- ═══ Row 0: Application Header ═══════════════════════════════════ -->
-        <Border Grid.Row="0">
+        <!-- ═══ Row 0: Application Header / Custom Title Bar ════════════════ -->
+        <!--  Height="50" is explicit so the Grid resolves row-0 size on the    -->
+        <!--  very first measure pass, before any async DWM decoration callback. -->
+        <Border Grid.Row="0" Height="50"
+                PointerPressed="TitleBar_PointerPressed"
+                DoubleTapped="TitleBar_DoubleTapped">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
                     <GradientStop Color="#0F172A" Offset="0" />
                     <GradientStop Color="#1E3A5F" Offset="1" />
                 </LinearGradientBrush>
             </Border.Background>
-            <Grid ColumnDefinitions="*,Auto" Margin="16 9">
+            <Grid ColumnDefinitions="*,Auto,Auto">
                 <!-- Left: App identity -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12"
+                            Margin="16 0 0 0" VerticalAlignment="Center">
                     <TextBlock Text="⚡" FontSize="20" VerticalAlignment="Center" Foreground="White" />
                     <StackPanel VerticalAlignment="Center" Spacing="1">
                         <TextBlock Text="Global DataCreator ETL"
@@ -30,9 +38,9 @@
                                    FontSize="10" Foreground="#94A3B8" />
                     </StackPanel>
                 </StackPanel>
-                <!-- Right: Live connection info -->
+                <!-- Center-right: Live connection info -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center" Margin="0 0 12 0">
                     <TextBlock FontSize="11" Foreground="#94A3B8" VerticalAlignment="Center"
                                Text="{Binding ConnectionInfo.ServerName}" />
                     <TextBlock FontSize="11" Foreground="#334155" VerticalAlignment="Center" Text="|" />
@@ -46,6 +54,24 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ConnectionInfo.StatusMessage}" />
                     </StackPanel>
+                </StackPanel>
+                <!-- Right: Window controls (Height matches header so no Stretch needed) -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="0">
+                    <Button Classes="WinCtrlBtn" Click="MinimizeButton_Click"
+                            ToolTip.Tip="Minimize">
+                        <TextBlock Text="&#x2212;" FontSize="16" FontWeight="Bold"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button x:Name="MaximizeButton" Classes="WinCtrlBtn" Click="MaximizeButton_Click"
+                            ToolTip.Tip="Maximize">
+                        <TextBlock Text="&#x25A1;" FontSize="13"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button Classes="WinCtrlBtn CloseBtn" Click="CloseButton_Click"
+                            ToolTip.Tip="Close">
+                        <TextBlock Text="&#x2715;" FontSize="13"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Button>
                 </StackPanel>
             </Grid>
         </Border>

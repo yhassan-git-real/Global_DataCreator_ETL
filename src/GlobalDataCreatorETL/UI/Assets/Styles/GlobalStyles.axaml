@@ -226,4 +226,37 @@
         <Setter Property="Height"            Value="1" />
     </Style>
 
+    <!-- ── Window Control Buttons (custom title bar) ─────────────────────── -->
+    <!--  Height="50" matches the explicit header Border height so the buttons  -->
+    <!--  have a concrete size on the very first layout pass.                   -->
+    <Style Selector="Button.WinCtrlBtn">
+        <Setter Property="Background"                  Value="Transparent" />
+        <Setter Property="BorderThickness"             Value="0" />
+        <Setter Property="Foreground"                  Value="White" />
+        <Setter Property="Width"                       Value="46" />
+        <Setter Property="Height"                      Value="50" />
+        <Setter Property="Padding"                     Value="0" />
+        <Setter Property="CornerRadius"                Value="0" />
+        <Setter Property="Cursor"                      Value="Arrow" />
+        <Setter Property="HorizontalContentAlignment"  Value="Center" />
+        <Setter Property="VerticalContentAlignment"    Value="Center" />
+    </Style>
+    <Style Selector="Button.WinCtrlBtn /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.WinCtrlBtn:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#33FFFFFF" />
+    </Style>
+    <Style Selector="Button.WinCtrlBtn:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="#55FFFFFF" />
+    </Style>
+
+    <!-- Close button: red highlight on hover -->
+    <Style Selector="Button.WinCtrlBtn.CloseBtn:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#E81123" />
+    </Style>
+    <Style Selector="Button.WinCtrlBtn.CloseBtn:pressed /template/ ContentPresenter">
+        <Setter Property="Background" Value="#C50A0F" />
+    </Style>
+
 </Styles>
