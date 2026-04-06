@@ -20,7 +20,7 @@
             <Grid RowDefinitions="Auto,2,Auto,1,Auto">
 
                 <!-- ── Row 0: Header banner ──────────────────────────────── -->
-                <Border Grid.Row="0" Background="#17263C" Padding="14 10">
+                <Border Grid.Row="0" Background="#E617263C" Padding="14 10">
                     <Grid ColumnDefinitions="Auto,10,Auto">
                         <Viewbox Grid.Column="0" Width="24" Height="24"
                                  VerticalAlignment="Center" Stretch="Uniform">
@@ -54,13 +54,13 @@
                 </Border>
 
                 <!-- ── Row 2: Mode + View/SP inputs ──────────────────────── -->
-                <Border Grid.Row="2" Background="#131D2C" Padding="14 12">
+                <Border Grid.Row="2" Background="#CC131D2C" Padding="14 12">
                     <StackPanel Spacing="14">
 
                         <!-- MODE sub-section -->
                         <StackPanel Spacing="6">
                             <TextBlock Classes="SectionTitle" Text="MODE" />
-                            <Border Background="#0C1A2C" BorderBrush="#1E3050"
+                            <Border Background="#C00C1A2C" BorderBrush="#1E3050"
                                     BorderThickness="1" CornerRadius="6" Padding="12 8">
                                 <StackPanel Orientation="Horizontal" Spacing="32">
                                     <RadioButton Classes="FormRadio" Content="Export"
@@ -77,7 +77,7 @@
                             <!-- VIEW -->
                             <StackPanel Grid.Column="0" Spacing="5">
                                 <TextBlock Classes="SectionTitle" Text="VIEW" />
-                                <Border Background="#0E2038" BorderBrush="#2A4060"
+                                <Border Background="#C00E2038" BorderBrush="#2A4060"
                                         BorderThickness="1" CornerRadius="5" Padding="10 8">
                                     <TextBlock Text="{Binding SelectedView}"
                                                FontFamily="Consolas" FontSize="11"
@@ -89,7 +89,7 @@
                             <!-- STORED PROCEDURE -->
                             <StackPanel Grid.Column="2" Spacing="5">
                                 <TextBlock Classes="SectionTitle" Text="STORED PROCEDURE" />
-                                <Border Background="#0E2038" BorderBrush="#2A4060"
+                                <Border Background="#C00E2038" BorderBrush="#2A4060"
                                         BorderThickness="1" CornerRadius="5" Padding="10 8">
                                     <TextBlock Text="{Binding SelectedSP}"
                                                FontFamily="Consolas" FontSize="11"

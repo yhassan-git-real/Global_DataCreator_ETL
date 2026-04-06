@@ -8,7 +8,7 @@
         <Grid RowDefinitions="Auto,2,Auto,Auto,1,Auto,1,*">
 
             <!-- ═══ Row 0: Header Banner ═══════════════════════════════════════ -->
-            <Border Grid.Row="0" Background="#17263C" Padding="14 10">
+            <Border Grid.Row="0" Background="#E617263C" Padding="14 10">
                 <Grid ColumnDefinitions="Auto,10,Auto,*,Auto">
 
                     <!-- Left: icon -->
@@ -86,7 +86,7 @@
             </Border>
 
             <!-- ═══ Row 2: Status + Metrics bar ═════════════════════════════════ -->
-            <Border Grid.Row="2" Background="#121C2C" Padding="14 7">
+            <Border Grid.Row="2" Background="#CC121C2C" Padding="14 7">
               <Grid ColumnDefinitions="Auto,6,Auto,*,Auto,10,Auto,10,Auto">
 
                 <!-- Status dot -->
@@ -140,7 +140,7 @@
             <Border Grid.Row="4" Height="1" Background="#1C2E44" />
 
             <!-- ═══ Row 5: Column header band ════════════════════════════════== -->
-            <Border Grid.Row="5" Background="#0F1B2B" Padding="14 5">
+            <Border Grid.Row="5" Background="#C80F1B2B" Padding="14 5">
                 <Grid ColumnDefinitions="60,8,100,8,*">
                     <TextBlock Grid.Column="0" Classes="LogColumnHeader" Text="TIME" />
                     <TextBlock Grid.Column="2" Classes="LogColumnHeader" Text="STAGE" />
@@ -160,7 +160,7 @@
             </Border>
 
             <!-- ═══ Row 7: Virtualized log list ══════════════════════════════== -->
-            <Border Grid.Row="7" Background="#16202E">
+            <Border Grid.Row="7" Background="#CC16202E">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding StatusLogs}">

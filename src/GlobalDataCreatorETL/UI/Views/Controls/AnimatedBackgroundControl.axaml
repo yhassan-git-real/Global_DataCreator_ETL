@@ -1,0 +1,6 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="GlobalDataCreatorETL.UI.Views.Controls.AnimatedBackgroundControl"
+             IsHitTestVisible="False">
+    <Canvas x:Name="PART_Canvas" ClipToBounds="True" />
+</UserControl>

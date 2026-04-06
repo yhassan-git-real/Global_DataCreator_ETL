@@ -70,9 +70,9 @@
                 <Grid RowDefinitions="Auto,2,Auto">
 
                     <!-- Header Banner -->
-                    <Border Grid.Row="0" Background="#17263C" Padding="14 10">
+                    <Border Grid.Row="0" Background="#E617263C" Padding="14 10">
                         <Grid ColumnDefinitions="Auto,10,Auto">
-                            <Viewbox Grid.Column="0" Width="20" Height="20"
+                            <Viewbox Grid.Column="0" Width="28" Height="28"
                                      VerticalAlignment="Center" Stretch="Uniform">
                                 <Canvas Width="24" Height="24">
                                     <Path Fill="#5B9BF5" Data="M4 4H20L14 11V17L10 17V11Z" />
@@ -103,7 +103,7 @@
                     </Border>
 
                     <!-- Fields content -->
-                    <Border Grid.Row="2" Background="#131D2C" Padding="14 12">
+                    <Border Grid.Row="2" Background="#CC131D2C" Padding="14 12">
                         <controls:InputFieldsControl />
                     </Border>
 
@@ -117,6 +117,11 @@
 
         <!-- ═══ Row 3: Footer ════════════════════════════════════════════════ -->
         <controls:FooterControl Grid.Row="3" />
+
+        <!-- ═══ Animated overlay (top of stack — IsHitTestVisible=False) ════ -->
+        <controls:AnimatedBackgroundControl Grid.RowSpan="4"
+                                            IsHitTestVisible="False"
+                                            Opacity="0.13" />
 
     </Grid>
 
