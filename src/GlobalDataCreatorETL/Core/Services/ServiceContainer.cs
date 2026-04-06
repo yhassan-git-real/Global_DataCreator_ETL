@@ -57,11 +57,14 @@ public sealed class ServiceContainer : IDisposable
         Config = new ConfigurationCacheService();
 
         var appSettings = Config.GetAppSettings();
-        var logDir = appSettings.LogFilePath;
+        var logDir    = appSettings.LogFilePath;
+        var outputDir = appSettings.OutputFilePath;
 
-        // Ensure log directory exists
+        // Ensure required directories exist on startup
         if (!string.IsNullOrWhiteSpace(logDir))
             Directory.CreateDirectory(logDir);
+        if (!string.IsNullOrWhiteSpace(outputDir))
+            Directory.CreateDirectory(outputDir);
 
         // 2. Logging
         ExecutionLogger = new ExecutionLogger(logDir);

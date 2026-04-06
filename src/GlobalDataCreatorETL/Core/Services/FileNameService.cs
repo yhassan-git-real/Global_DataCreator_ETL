@@ -39,11 +39,12 @@ public sealed class FileNameService
         .Select(v => SanitizeFileName(v!.Trim()))
         .ToArray();
 
-        var core = parts.Length > 0 ? string.Join("_", parts) : "ALL";
+        var country    = SanitizeFileName(request.CountryName.Trim());
+        var core       = parts.Length > 0 ? string.Join("_", parts) : "ALL";
         var monthRange = BuildMonthRange(request.FromMonth, request.ToMonth);
-        var suffix = request.Mode.Equals("Export", StringComparison.OrdinalIgnoreCase) ? "EXP" : "IMP";
+        var suffix     = request.Mode.Equals("Export", StringComparison.OrdinalIgnoreCase) ? "EXP" : "IMP";
 
-        return $"{core}_{monthRange}{suffix}.xlsx";
+        return $"{country}_{core}_{monthRange}{suffix}.xlsx";
     }
 
     private static string BuildMonthRange(int from, int to)

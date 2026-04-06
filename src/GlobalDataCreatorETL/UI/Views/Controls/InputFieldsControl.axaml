@@ -41,7 +41,7 @@
                 <TextBlock Classes="FieldLabel" Text="HS Code" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.HsCode}"
-                         Watermark="e.g. 8471 — leave blank for all" />
+                         Watermark="e.g. 20, 30, 40 — comma-separated or blank for all" />
             </StackPanel>
 
         </Grid>
@@ -53,21 +53,21 @@
                 <TextBlock Classes="FieldLabel" Text="Product" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.Product}"
-                         Watermark="Product description" />
+                         Watermark="e.g. Iron, Steel, Alum — comma-separated" />
             </StackPanel>
 
             <StackPanel Grid.Column="2" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="IEC Code" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.IecCode}"
-                         Watermark="IEC number" />
+                         Watermark="e.g. IEC001, IEC002 — comma-separated" />
             </StackPanel>
 
             <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="{Binding CompanyLabel}" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.CompanyName}"
-                         Watermark="Company name" />
+                         Watermark="e.g. ABC Corp, XYZ Ltd — comma-separated" />
             </StackPanel>
 
         </Grid>
@@ -79,21 +79,21 @@
                 <TextBlock Classes="FieldLabel" Text="Foreign Country Code" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.ForeignCountryCode}"
-                         Watermark="e.g. USA, CHN" />
+                         Watermark="e.g. USA, CHN — comma-separated" />
             </StackPanel>
 
             <StackPanel Grid.Column="2" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Foreign Name" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.ForeignName}"
-                         Watermark="Foreign party name" />
+                         Watermark="e.g. Party A, Party B — comma-separated" />
             </StackPanel>
 
             <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Port" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.Port}"
-                         Watermark="Port of entry / exit" />
+                         Watermark="e.g. INNSA, INMAA — comma-separated" />
             </StackPanel>
 
         </Grid>
@@ -112,7 +112,7 @@
                 <TextBlock Classes="FieldLabel" Text="Excel File Name" />
                 <TextBox Classes="FormInput"
                          Text="{Binding Filter.UserFileName}"
-                         Watermark="Auto-generated if blank" />
+                         Watermark="Auto-generated per combination (single run only)" />
             </StackPanel>
             <StackPanel Grid.Column="4" Spacing="3">
                 <TextBlock Classes="FieldLabel" Text="Output Directory" />

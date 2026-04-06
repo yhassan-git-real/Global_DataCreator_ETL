@@ -36,32 +36,39 @@ public sealed partial class MainViewModel
 
         try
         {
-            var request = BuildEtlRequest();
-            LastSpName   = request.SpName;
-            LastViewName = request.ViewName;
+            var inputs = BuildEtlInputs();
+            LastSpName   = inputs.SpName;
+            LastViewName = inputs.ViewName;
 
-            var result = await Task.Run(() => _services.Orchestrator.RunAsync(request, ct), ct);
+            var result = await Task.Run(() => _services.Orchestrator.RunBatchAsync(inputs, ct), ct);
 
             sw.Stop();
             timer.Stop();
-            ElapsedTime  = sw.Elapsed.ToString(@"hh\:mm\:ss");
-            RecordCount  = result.RowCount;
-            OutputFilePath = result.OutputFilePath;
+            ElapsedTime    = sw.Elapsed.ToString(@"hh\:mm\:ss");
+            RecordCount    = result.TotalRows;
+            OutputFilePath = result.LastOutputFilePath ?? string.Empty;
 
-            if (result.Success && result.RowCount > 0)
+            if (result.Cancelled)
             {
-                SystemStatus  = SystemStatus.Completed;
-                StatusMessage = $"Done! {result.RowCount:N0} rows → {Path.GetFileName(result.OutputFilePath)}";
+                SystemStatus  = SystemStatus.Cancelled;
+                StatusMessage = "Operation cancelled.";
             }
-            else if (result.RowCount == 0)
+            else if (result.HasAnySuccess)
             {
                 SystemStatus  = SystemStatus.Completed;
-                StatusMessage = result.ErrorMessage ?? "No data found.";
+                StatusMessage = result.TotalCombinations == 1
+                    ? $"Done! {result.TotalRows:N0} rows → {Path.GetFileName(result.LastOutputFilePath)}"
+                    : $"Done! {result.FilesGenerated}/{result.TotalCombinations} files, {result.TotalRows:N0} total rows.";
+            }
+            else if (result.TotalRows == 0 && result.FailedCount == 0)
+            {
+                SystemStatus  = SystemStatus.Completed;
+                StatusMessage = "No data found for the selected filters.";
             }
             else
             {
                 SystemStatus  = SystemStatus.Failed;
-                StatusMessage = result.ErrorMessage ?? "Operation failed.";
+                StatusMessage = result.ErrorMessage ?? "One or more combinations failed.";
             }
         }
         catch (OperationCanceledException)
@@ -111,7 +118,28 @@ public sealed partial class MainViewModel
             Filter.OutputDirectory = folders[0].Path.LocalPath;
     }
 
-    private EtlRequest BuildEtlRequest() => new()
+    // ── Helpers ─────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Splits a comma-separated input string into trimmed scalar values.
+    /// Blank or whitespace inputs return ["%"] (wildcard = all).
+    /// </summary>
+    private static List<string> SplitAndTrim(string? input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return ["%"];
+
+        var values = input
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => s.Trim())
+            .Where(s => s.Length > 0)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        return values.Count > 0 ? values : ["%"];
+    }
+
+    private EtlInputs BuildEtlInputs() => new()
     {
         CountryId    = SelectedCountry!.Id,
         CountryName  = SelectedCountry.Name,
@@ -121,14 +149,15 @@ public sealed partial class MainViewModel
         TableName    = _currentTableName,
         FromMonth    = Filter.FromMonthInt,
         ToMonth      = Filter.ToMonthInt,
-        HsCode       = Filter.HsCode,
-        Product      = Filter.Product,
-        IecCode      = Filter.IecCode,
-        CompanyName  = Filter.CompanyName,
-        ForeignCountryCode = Filter.ForeignCountryCode,
-        ForeignName  = Filter.ForeignName,
-        Port         = Filter.Port,
-        OutputDirectory = Filter.OutputDirectory,
-        UserFileName = Filter.UserFileName
+        HsCodes            = SplitAndTrim(Filter.HsCode),
+        Products           = SplitAndTrim(Filter.Product),
+        IecCodes           = SplitAndTrim(Filter.IecCode),
+        CompanyNames       = SplitAndTrim(Filter.CompanyName),
+        ForeignCountryCodes = SplitAndTrim(Filter.ForeignCountryCode),
+        ForeignNames       = SplitAndTrim(Filter.ForeignName),
+        Ports              = SplitAndTrim(Filter.Port),
+        OutputDirectory    = Filter.OutputDirectory,
+        UserFileName       = Filter.UserFileName
     };
 }
+

@@ -54,6 +54,120 @@ public sealed class EtlOrchestrator
         _reporter = reporter;
     }
 
+    /// <summary>
+    /// Runs the full ETL batch: iterates all Cartesian combinations of the multi-value
+    /// filter lists in <paramref name="inputs"/> and calls <see cref="RunAsync"/> for each.
+    /// </summary>
+    public async Task<BatchCompletionResult> RunBatchAsync(EtlInputs inputs, CancellationToken ct)
+    {
+        var sw = Stopwatch.StartNew();
+        int filesGenerated = 0, failedCount = 0;
+        long totalRows = 0;
+        string? lastOutputFilePath = null;
+        int combinationIndex = 0;
+        int total = inputs.TotalCombinations;
+
+        if (total > 1)
+            _reporter.ReportPhase("BATCH_START", $"Starting {total} combinations…");
+
+        try
+        {
+            foreach (var hsCode in inputs.HsCodes)
+            foreach (var product in inputs.Products)
+            foreach (var iec in inputs.IecCodes)
+            foreach (var company in inputs.CompanyNames)
+            foreach (var forCountry in inputs.ForeignCountryCodes)
+            foreach (var forName in inputs.ForeignNames)
+            foreach (var port in inputs.Ports)
+            {
+                ct.ThrowIfCancellationRequested();
+                combinationIndex++;
+
+                if (total > 1)
+                    _reporter.ReportPhase("COMBINATION",
+                        $"[{combinationIndex}/{total}] HSCode={hsCode}  Product={product}  IECCode={iec}  Company={company}  ForeignCountry={forCountry}  ForeignName={forName}  Port={port}");
+
+                var request = new EtlRequest
+                {
+                    CountryId          = inputs.CountryId,
+                    CountryName        = inputs.CountryName,
+                    Mode               = inputs.Mode,
+                    SpName             = inputs.SpName,
+                    ViewName           = inputs.ViewName,
+                    TableName          = inputs.TableName,
+                    FromMonth          = inputs.FromMonth,
+                    ToMonth            = inputs.ToMonth,
+                    HsCode             = hsCode == "%" ? null : hsCode,
+                    Product            = product == "%" ? null : product,
+                    IecCode            = iec == "%" ? null : iec,
+                    CompanyName        = company == "%" ? null : company,
+                    ForeignCountryCode = forCountry == "%" ? null : forCountry,
+                    ForeignName        = forName == "%" ? null : forName,
+                    Port               = port == "%" ? null : port,
+                    OutputDirectory    = inputs.OutputDirectory,
+                    UserFileName       = total == 1 ? inputs.UserFileName : null
+                };
+
+                try
+                {
+                    var result = await RunAsync(request, ct);
+                    if (result.Success && result.RowCount > 0)
+                    {
+                        filesGenerated++;
+                        totalRows += result.RowCount;
+                        lastOutputFilePath = result.OutputFilePath;
+                    }
+                    else if (!result.Success && result.RowCount == 0 &&
+                             result.ErrorMessage != "No data found for the selected filters.")
+                    {
+                        failedCount++;
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    failedCount++;
+                    _errorLogger.LogError(ex, "BATCH", $"HS={hsCode}, Product={product}: {ex.Message}");
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            sw.Stop();
+            return new BatchCompletionResult
+            {
+                FilesGenerated    = filesGenerated,
+                TotalCombinations = total,
+                TotalRows         = totalRows,
+                FailedCount       = failedCount,
+                Cancelled         = true,
+                Duration          = sw.Elapsed,
+                LastOutputFilePath = lastOutputFilePath,
+                ErrorMessage      = "Operation cancelled by user."
+            };
+        }
+
+        sw.Stop();
+
+        if (total > 1)
+            _reporter.ReportPhase("BATCH_DONE",
+                $"Batch complete — {filesGenerated} file(s) generated, {totalRows:N0} total rows.");
+
+        return new BatchCompletionResult
+        {
+            FilesGenerated    = filesGenerated,
+            TotalCombinations = total,
+            TotalRows         = totalRows,
+            FailedCount       = failedCount,
+            Cancelled         = false,
+            Duration          = sw.Elapsed,
+            LastOutputFilePath = lastOutputFilePath
+        };
+    }
+
     public async Task<CompletionResult> RunAsync(EtlRequest request, CancellationToken ct)
     {
         var sw = Stopwatch.StartNew();
@@ -121,9 +235,9 @@ public sealed class EtlOrchestrator
                 return Fail(request, msg, sw.Elapsed);
             }
 
-            // 5. Read column schema
-            _reporter.ReportPhase("SCHEMA", $"Reading column schema for {request.TableName}…");
-            var schema = await _schemaReader.GetColumnInfoAsync(request.TableName, ct);
+            // 5. Read column schema — use ViewName (mode-aware) not TableName
+            _reporter.ReportPhase("SCHEMA", $"Reading column schema for {request.ViewName}…");
+            var schema = await _schemaReader.GetColumnInfoAsync(request.ViewName, ct);
 
             ct.ThrowIfCancellationRequested();
 
