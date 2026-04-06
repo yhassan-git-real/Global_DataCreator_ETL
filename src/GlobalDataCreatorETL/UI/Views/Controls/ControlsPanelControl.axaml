@@ -18,7 +18,14 @@
         <Border Grid.Column="2" Classes="Card">
             <StackPanel Spacing="8" VerticalAlignment="Top">
 
-                <TextBlock Classes="CardHeader" Text="Execution Controls" />
+                <StackPanel Classes="CardHeaderRow">
+                    <Viewbox Classes="HeaderIcon">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="#64748B" Data="M4 14H8V22H4ZM10 10H14V22H10ZM16 6H20V22H16Z" />
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock Classes="CardHeader" Text="Execution Controls" />
+                </StackPanel>
                 <Border Classes="Divider" />
 
                 <!-- Row 1: Mode -->

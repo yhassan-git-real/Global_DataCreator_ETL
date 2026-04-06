@@ -67,7 +67,14 @@
             <!-- ── Group 1: Filter Parameters ───────────────────────── -->
             <Border Grid.Row="0" Classes="Card" Margin="0 0 0 8">
                 <StackPanel Spacing="0">
-                    <TextBlock Classes="CardHeader" Text="Filter Parameters" />
+                <StackPanel Classes="CardHeaderRow">
+                        <Viewbox Classes="HeaderIcon">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#64748B" Data="M4 4H20L14 11V17L10 17V11Z" />
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Classes="CardHeader" Text="Filter Parameters" />
+                    </StackPanel>
                     <Border Classes="Divider" />
                     <controls:InputFieldsControl />
                 </StackPanel>

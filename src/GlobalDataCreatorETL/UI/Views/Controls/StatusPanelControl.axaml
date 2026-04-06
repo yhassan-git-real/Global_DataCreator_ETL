@@ -1,12 +1,32 @@
 <UserControl xmlns="https://github.com/avaloniaui"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:models="using:GlobalDataCreatorETL.UI.Models"
             x:Class="GlobalDataCreatorETL.UI.Views.Controls.StatusPanelControl">
 
     <Border Classes="Card" Padding="12" Margin="0">
-        <Grid RowDefinitions="Auto,Auto,Auto,4,Auto,6,Auto,6,*">
+        <Grid RowDefinitions="Auto,Auto,Auto,4,Auto,6,Auto,2,*">
 
-            <!-- ── Row 0: Panel header ──────────────────────────────────────── -->
-            <TextBlock Grid.Row="0" Classes="CardHeader" Text="Execution Log" />
+            <!-- ── Row 0: Panel header + Country + Output ───────────────────── -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,Auto,Auto,20,Auto,Auto,*">
+                <Viewbox Grid.Column="0" Classes="HeaderIcon">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="#64748B" Data="M2 4H22V8H2ZM2 11H22V15H2ZM2 18H16V22H2Z" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock Grid.Column="1" Classes="CardHeader" Text="Execution Log" />
+                <TextBlock Grid.Column="3" Classes="FieldLabel" Text="Country:" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="4" FontSize="11" FontWeight="SemiBold"
+                           Foreground="Black"
+                           Text="{Binding SelectedCountry.Name}"
+                           VerticalAlignment="Center" Margin="4 0 0 0"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="6" Classes="FieldLabel" Text="Output:" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="7" FontSize="11"
+                           Foreground="Black"
+                           Text="{Binding OutputFilePath}"
+                           VerticalAlignment="Center" Margin="4 0 0 0"
+                           TextTrimming="CharacterEllipsis" />
+            </Grid>
 
             <!-- ── Row 1: Divider ───────────────────────────────────────────── -->
             <Border Grid.Row="1" Classes="Divider" />
@@ -14,32 +34,27 @@
             <!-- ── Row 2: Status bar ────────────────────────────────────────── -->
             <Grid Grid.Row="2" ColumnDefinitions="Auto,6,Auto,*,Auto,10,Auto"
                   MinHeight="20">
-                <!-- Status dot -->
                 <Ellipse Grid.Column="0" Classes="StatusDot"
                          Fill="{Binding SystemStatusColor}" />
-                <!-- Running / Idle label -->
                 <TextBlock Grid.Column="2"
                            FontWeight="SemiBold" FontSize="11"
                            Text="{Binding SystemStatusMessage}"
                            Foreground="{Binding SystemStatusColor}"
                            VerticalAlignment="Center" />
-                <!-- Current step phase — fills remaining space -->
-                <TextBlock Grid.Column="3" FontSize="11" Foreground="#777777"
+                <TextBlock Grid.Column="3" FontSize="11" Foreground="#64748B"
                            Text="{Binding CurrentStepPhase}"
                            VerticalAlignment="Center" Margin="8 0 0 0"
                            TextTrimming="CharacterEllipsis" />
-                <!-- Elapsed time -->
-                <TextBlock Grid.Column="4" FontSize="11" Foreground="#555555"
+                <TextBlock Grid.Column="4" FontSize="11" Foreground="#475569"
                            Text="{Binding ElapsedTime}" FontFamily="Consolas"
                            VerticalAlignment="Center" />
-                <!-- Row count -->
                 <TextBlock Grid.Column="6" FontSize="11" Foreground="#1565C0"
                            FontWeight="SemiBold"
                            Text="{Binding RecordCount, StringFormat='{}{0:N0} rows'}"
                            VerticalAlignment="Center" />
             </Grid>
 
-            <!-- ── Row 4: Progress bar ──────────────────────────────────────── -->
+            <!-- ── Row 4: Progress bar (visible only while busy) ────────────── -->
             <ProgressBar Grid.Row="4"
                          IsIndeterminate="{Binding IsBusy}"
                          Value="{Binding ProgressValue}"
@@ -49,34 +64,58 @@
                          Background="#E8ECF0"
                          IsVisible="{Binding IsBusy}" />
 
-            <!-- ── Row 6: Execution metrics ─────────────────────────────────── -->
-            <Grid Grid.Row="6" ColumnDefinitions="Auto,*,20,Auto,*">
-                <TextBlock Grid.Column="0" Classes="FieldLabel" Text="Country:" />
-                <TextBlock Grid.Column="1" FontSize="11"
-                           Text="{Binding SelectedCountry.Name}"
-                           VerticalAlignment="Center"
-                           TextTrimming="CharacterEllipsis" />
-                <TextBlock Grid.Column="3" Classes="FieldLabel" Text="Output:" />
-                <TextBlock Grid.Column="4" FontSize="11" Foreground="#1565C0"
-                           Text="{Binding OutputFilePath}"
-                           VerticalAlignment="Center"
-                           TextTrimming="CharacterEllipsis" />
+            <!-- ── Row 6: Log column headers ────────────────────────────────── -->
+            <Grid Grid.Row="6" ColumnDefinitions="60,8,100,8,*"
+                  Margin="10 0 10 0">
+                <TextBlock Grid.Column="0" Classes="LogColumnHeader" Text="TIME" />
+                <TextBlock Grid.Column="2" Classes="LogColumnHeader" Text="STAGE" />
+                <TextBlock Grid.Column="4" Classes="LogColumnHeader" Text="DETAILS" />
             </Grid>
 
-            <!-- ── Row 8: Execution log ─────────────────────────────────────── -->
-            <Border Grid.Row="8" Background="#F8FAFC"
+            <!-- ── Row 8: Virtualized log list ──────────────────────────────── -->
+            <Border Grid.Row="8"
+                    Background="#F8FAFC"
                     BorderBrush="#E2E8F0" BorderThickness="1"
-                    CornerRadius="5" Padding="8 6">
+                    CornerRadius="5">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding StatusLogs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}"
-                                           FontFamily="Consolas" FontSize="11"
-                                           Foreground="#1E293B"
-                                           TextWrapping="Wrap"
-                                           Margin="0 1" />
+                            <DataTemplate x:DataType="models:LogEntry">
+                                <!-- Row wrapper: bottom border gives row separation -->
+                                <Border BorderBrush="#EDF2F7" BorderThickness="0 0 0 1"
+                                        Padding="10 0">
+                                    <Grid ColumnDefinitions="60,8,100,8,*" MinHeight="26">
+
+                                        <!-- Time -->
+                                        <TextBlock Grid.Column="0"
+                                                   Classes="LogTime"
+                                                   Text="{Binding Time}"
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Stage badge -->
+                                        <Border Grid.Column="2"
+                                                Classes="LogPhaseBadge"
+                                                Background="{Binding PhaseBackground}"
+                                                VerticalAlignment="Center">
+                                            <TextBlock Classes="LogPhase"
+                                                       Foreground="{Binding PhaseForeground}"
+                                                       Text="{Binding Phase}" />
+                                        </Border>
+
+                                        <!-- Detail -->
+                                        <TextBlock Grid.Column="4"
+                                                   Classes="LogDetail"
+                                                   Foreground="{Binding DetailForeground}"
+                                                   Text="{Binding Detail}"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

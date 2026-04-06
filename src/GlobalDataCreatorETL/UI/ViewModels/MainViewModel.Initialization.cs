@@ -1,4 +1,5 @@
 using GlobalDataCreatorETL.Core.Models;
+using GlobalDataCreatorETL.UI.Models;
 
 namespace GlobalDataCreatorETL.UI.ViewModels;
 
@@ -22,15 +23,15 @@ public sealed partial class MainViewModel
         try
         {
             StatusMessage = "Connecting to database…";
-            StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] • Connecting to database…");
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = "Connecting to database…" });
             await _services.ConnectAsync();
             await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(UpdateConnectionInfo);
-            StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] • Connected successfully");
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = "Connected successfully" });
         }
         catch (Exception ex)
         {
             StatusMessage = $"DB connection failed: {ex.Message}";
-            StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] ✗ DB connection failed: {ex.Message}");
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DB", Detail = $"Connection failed: {ex.Message}", Level = LogEntryLevel.Error });
         }
 
         await LoadCountriesAsync();
@@ -40,7 +41,7 @@ public sealed partial class MainViewModel
     {
         try
         {
-            StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] • Loading countries…");
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = "Loading countries…" });
             var list = await _services.CountryService.GetAllActiveCountriesAsync();
             _ = Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -51,13 +52,13 @@ public sealed partial class MainViewModel
                 if (Countries.Count > 0)
                     SelectedCountry = Countries[0];
 
-                StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] • Loaded {Countries.Count} countries");
+                StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = $"Loaded {Countries.Count} countries" });
             });
         }
         catch (Exception ex)
         {
             StatusMessage = $"Failed to load countries: {ex.Message}";
-            StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] ✗ Failed to load countries: {ex.Message}");
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = $"Failed to load countries: {ex.Message}", Level = LogEntryLevel.Error });
         }
     }
 
@@ -75,7 +76,7 @@ public sealed partial class MainViewModel
         catch (Exception ex)
         {
             StatusMessage = $"Failed to load country data: {ex.Message}";
-            StatusLogs.Add($"[{DateTime.Now:HH:mm:ss}] ✗ Failed to load country data: {ex.Message}");
+            StatusLogs.Add(new LogEntry { Time = DateTime.Now.ToString("HH:mm:ss"), Phase = "DATA", Detail = $"Failed to load country data: {ex.Message}", Level = LogEntryLevel.Error });
         }
     }
 

@@ -175,5 +175,5 @@ public sealed partial class MainViewModel
     }
 
     // ── Status Log ─────────────────────────────────────────────────────────────
-    public ObservableCollection<string> StatusLogs { get; } = new();
+    public ObservableCollection<LogEntry> StatusLogs { get; } = new();
 }

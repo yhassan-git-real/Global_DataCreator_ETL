@@ -39,8 +39,29 @@
         <Setter Property="FontSize"          Value="14" />
         <Setter Property="FontWeight"        Value="SemiBold" />
         <Setter Property="Foreground"        Value="#0F172A" />
-        <Setter Property="Margin"            Value="0 2 0 10" />
+        <Setter Property="Margin"            Value="0" />
         <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- ── Card header row (icon + title wrapper) ────────────────────────── -->
+    <Style Selector="StackPanel.CardHeaderRow">
+        <Setter Property="Orientation"       Value="Horizontal" />
+        <Setter Property="Spacing"           Value="6" />
+        <Setter Property="Margin"            Value="0 2 0 10" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!--
+        Header icon: always wrap in Viewbox.HeaderIcon > Canvas 24×24 > Path.
+        The Viewbox enforces a fixed 24×24 artboard so every icon scales the
+        same way regardless of where its path coordinates start.
+    -->
+    <Style Selector="Viewbox.HeaderIcon">
+        <Setter Property="Width"             Value="14" />
+        <Setter Property="Height"            Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Stretch"           Value="Uniform" />
     </Style>
 
     <!-- ── Section divider ───────────────────────────────────────────────── -->
@@ -296,6 +317,44 @@
     </Style>
     <Style Selector="Button.WinCtrlBtn.CloseBtn:pressed /template/ ContentPresenter">
         <Setter Property="Background" Value="#C50A0F" />
+    </Style>
+    <!-- ── Execution log — column headers ───────────────────────────────── -->
+    <Style Selector="TextBlock.LogColumnHeader">
+        <Setter Property="FontSize"          Value="9" />
+        <Setter Property="FontWeight"        Value="Bold" />
+        <Setter Property="Foreground"        Value="#94A3B8" />
+        <Setter Property="LetterSpacing"     Value="0.8" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin"            Value="0 0 0 3" />
+    </Style>
+
+    <!-- ── Execution log — time cell ─────────────────────────────────────── -->
+    <Style Selector="TextBlock.LogTime">
+        <Setter Property="FontFamily"        Value="Consolas" />
+        <Setter Property="FontSize"          Value="11" />
+        <Setter Property="Foreground"        Value="#94A3B8" />
+    </Style>
+
+    <!-- ── Execution log — stage badge ──────────────────────────────────── -->
+    <Style Selector="Border.LogPhaseBadge">
+        <Setter Property="CornerRadius"      Value="3" />
+        <Setter Property="Padding"           Value="5 2" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <!-- ── Execution log — stage text ───────────────────────────────────── -->
+    <Style Selector="TextBlock.LogPhase">
+        <Setter Property="FontFamily"        Value="Consolas" />
+        <Setter Property="FontSize"          Value="10" />
+        <Setter Property="FontWeight"        Value="SemiBold" />
+        <Setter Property="TextTrimming"      Value="CharacterEllipsis" />
+    </Style>
+
+    <!-- ── Execution log — detail text ──────────────────────────────────── -->
+    <Style Selector="TextBlock.LogDetail">
+        <Setter Property="FontFamily"        Value="Consolas" />
+        <Setter Property="FontSize"          Value="11" />
+        <Setter Property="TextTrimming"      Value="CharacterEllipsis" />
     </Style>
 
 </Styles>

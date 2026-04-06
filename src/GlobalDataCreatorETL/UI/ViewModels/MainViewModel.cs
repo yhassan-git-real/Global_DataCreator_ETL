@@ -42,9 +42,13 @@ public sealed partial class MainViewModel : ReactiveObject, IDisposable
             StatusMessage = step.Detail;
             if (step.RowCount.HasValue) RecordCount = step.RowCount.Value;
             if (step.IsError) SystemStatus = SystemStatus.Failed;
-            var prefix = step.IsError ? "✗" : "•";
-            var time = DateTime.Now.ToString("HH:mm:ss");
-            StatusLogs.Add($"[{time}] {prefix} {step.Phase}: {step.Detail}");
+            StatusLogs.Add(new LogEntry
+            {
+                Time   = step.Timestamp.ToString("HH:mm:ss"),
+                Phase  = step.Phase,
+                Detail = step.Detail,
+                Level  = step.IsError ? LogEntryLevel.Error : LogEntryLevel.Info
+            });
         });
     }
 
