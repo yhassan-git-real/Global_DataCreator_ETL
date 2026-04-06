@@ -15,8 +15,9 @@
         <controls:StatusPanelControl Grid.Column="0" />
 
         <!-- ════ Card 2 — Execution Controls ════════════════════════════════ -->
-        <Border Grid.Column="2" Classes="Card" Padding="0" ClipToBounds="True">
-            <Grid RowDefinitions="Auto,2,Auto,1,Auto,1,Auto">
+        <Border Grid.Column="2" Classes="Card" Padding="0" ClipToBounds="True"
+                VerticalAlignment="Top">
+            <Grid RowDefinitions="Auto,2,Auto,1,Auto">
 
                 <!-- ── Row 0: Header banner ──────────────────────────────── -->
                 <Border Grid.Row="0" Background="#17263C" Padding="14 10">
@@ -113,7 +114,7 @@
                 </Border>
 
                 <!-- ── Row 4: Buttons ─────────────────────────────────────── -->
-                <Border Grid.Row="4" Background="#0F1A28" Padding="14 14">
+                <Border Grid.Row="4" Padding="14 16">
                     <Grid ColumnDefinitions="*,8,*,8,*">
                         <Button Grid.Column="0" Classes="PrimaryButton"
                                 Command="{Binding StartCommand}"
@@ -130,12 +131,6 @@
                                 Content="↺  Reset" />
                     </Grid>
                 </Border>
-
-                <!-- ── Row 5: Bottom accent ───────────────────────────────── -->
-                <Border Grid.Row="5" Height="1" Background="#1C2E44" />
-
-                <!-- ── Row 6: Empty spacer (keeps card bottom clean) ─────── -->
-                <Border Grid.Row="6" Background="#0F1A28" Height="6" />
 
             </Grid>
         </Border>

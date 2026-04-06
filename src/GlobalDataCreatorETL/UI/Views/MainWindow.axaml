@@ -63,22 +63,51 @@
         <!-- ═══ Row 1: Menu Bar (hidden) ══════════════════════════════════ -->
 
         <!-- ═══ Row 2: Main Content ══════════════════════════════════════════ -->
-        <Grid Grid.Row="2" RowDefinitions="Auto,*" Margin="16 10">
+        <Grid Grid.Row="2" RowDefinitions="Auto,*" Margin="4 2">
 
             <!-- ── Group 1: Filter Parameters ───────────────────────── -->
-            <Border Grid.Row="0" Classes="Card" Margin="0 0 0 8">
-                <StackPanel Spacing="0">
-                <StackPanel Classes="CardHeaderRow">
-                        <Viewbox Classes="HeaderIcon">
-                            <Canvas Width="24" Height="24">
-                                <Path Fill="#5B9BF5" Data="M4 4H20L14 11V17L10 17V11Z" />
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Classes="CardHeader" Text="Filter Parameters" />
-                    </StackPanel>
-                    <Border Classes="Divider" />
-                    <controls:InputFieldsControl />
-                </StackPanel>
+            <Border Grid.Row="0" Classes="Card" Padding="0" Margin="0 0 0 8" ClipToBounds="True">
+                <Grid RowDefinitions="Auto,2,Auto">
+
+                    <!-- Header Banner -->
+                    <Border Grid.Row="0" Background="#17263C" Padding="14 10">
+                        <Grid ColumnDefinitions="Auto,10,Auto">
+                            <Viewbox Grid.Column="0" Width="20" Height="20"
+                                     VerticalAlignment="Center" Stretch="Uniform">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="#5B9BF5" Data="M4 4H20L14 11V17L10 17V11Z" />
+                                </Canvas>
+                            </Viewbox>
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="FILTER PARAMETERS"
+                                           FontSize="13" FontWeight="Bold" LetterSpacing="1.4"
+                                           Foreground="#D4E8F8"
+                                           FontFamily="Segoe UI, Inter, sans-serif" />
+                                <TextBlock Text="Date range, trade filters &amp; output configuration"
+                                           FontSize="9" LetterSpacing="0.4"
+                                           Foreground="#3A566E"
+                                           FontFamily="Segoe UI, Inter, sans-serif" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Gradient accent line -->
+                    <Border Grid.Row="1" Height="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                                <GradientStop Color="#4A8EE8" Offset="0" />
+                                <GradientStop Color="#2C5CB0" Offset="0.4" />
+                                <GradientStop Color="#1E2E44" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Fields content -->
+                    <Border Grid.Row="2" Background="#131D2C" Padding="14 12">
+                        <controls:InputFieldsControl />
+                    </Border>
+
+                </Grid>
             </Border>
 
             <!-- ── Group 2: Control, Output &amp; Status ────────────── -->

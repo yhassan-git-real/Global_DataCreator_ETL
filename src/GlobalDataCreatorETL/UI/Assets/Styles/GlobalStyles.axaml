@@ -89,11 +89,12 @@
 
     <!-- ── Labels ────────────────────────────────────────────────────────── -->
     <Style Selector="TextBlock.FieldLabel">
-        <Setter Property="FontSize"          Value="11" />
+        <Setter Property="FontSize"          Value="10" />
         <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Foreground"        Value="#9CB8D0" />
+        <Setter Property="Foreground"        Value="#4A6E8C" />
+        <Setter Property="LetterSpacing"     Value="0.8" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin"            Value="0 0 0 2" />
+        <Setter Property="Margin"            Value="0 0 0 4" />
         <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>
 
