@@ -7,7 +7,7 @@
 
             <!-- Left: copyright -->
             <TextBlock Grid.Column="0" Classes="FooterText"
-                       Text="© 2025 Global DataCreator ETL  v1.0.0" />
+                       Text="© 2026 Global DataCreator ETL  v1.0.0" />
 
             <!-- Right: DB connection status -->
             <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
