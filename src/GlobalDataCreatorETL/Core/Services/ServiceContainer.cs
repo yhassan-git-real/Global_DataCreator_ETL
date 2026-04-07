@@ -64,7 +64,11 @@ public sealed class ServiceContainer : IDisposable
         if (!string.IsNullOrWhiteSpace(logDir))
             Directory.CreateDirectory(logDir);
         if (!string.IsNullOrWhiteSpace(outputDir))
+        {
             Directory.CreateDirectory(outputDir);
+            Directory.CreateDirectory(Path.Combine(outputDir, appSettings.ExportSubDirectory));
+            Directory.CreateDirectory(Path.Combine(outputDir, appSettings.ImportSubDirectory));
+        }
 
         // 2. Logging
         ExecutionLogger = new ExecutionLogger(logDir);
@@ -112,7 +116,8 @@ public sealed class ServiceContainer : IDisposable
             ExecutionLogger,
             ErrorLogger,
             SuccessLogger,
-            StatusReporter);
+            StatusReporter,
+            Config);
     }
 
     /// <summary>

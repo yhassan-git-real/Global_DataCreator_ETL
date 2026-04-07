@@ -12,4 +12,10 @@ public sealed class AppSettings
     public string AppVersion { get; set; } = "1.0.0";
     public int LargeDatasetThreshold { get; set; } = 50000;
     public int MaxExcelRows          { get; set; } = 1048575;
+
+    /// <summary>Subdirectory name created under OutputFilePath for Export files.</summary>
+    public string ExportSubDirectory { get; set; } = "Export";
+
+    /// <summary>Subdirectory name created under OutputFilePath for Import files.</summary>
+    public string ImportSubDirectory { get; set; } = "Import";
 }

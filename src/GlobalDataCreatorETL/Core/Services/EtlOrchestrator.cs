@@ -1,4 +1,5 @@
 using GlobalDataCreatorETL.Core.Cancellation;
+using GlobalDataCreatorETL.Core.Configuration;
 using GlobalDataCreatorETL.Core.DataAccess;
 using GlobalDataCreatorETL.Core.Database;
 using GlobalDataCreatorETL.Core.Models;
@@ -27,6 +28,7 @@ public sealed class EtlOrchestrator
     private readonly ErrorLogger _errorLogger;
     private readonly SuccessLogger _successLogger;
     private readonly EtlStatusReporter _reporter;
+    private readonly ConfigurationCacheService _config;
 
     public EtlOrchestrator(
         ValidationService validation,
@@ -39,7 +41,8 @@ public sealed class EtlOrchestrator
         ExecutionLogger executionLogger,
         ErrorLogger errorLogger,
         SuccessLogger successLogger,
-        EtlStatusReporter reporter)
+        EtlStatusReporter reporter,
+        ConfigurationCacheService config)
     {
         _validation = validation;
         _paramBuilder = paramBuilder;
@@ -52,6 +55,7 @@ public sealed class EtlOrchestrator
         _errorLogger = errorLogger;
         _successLogger = successLogger;
         _reporter = reporter;
+        _config = config;
     }
 
     /// <summary>
@@ -253,9 +257,15 @@ public sealed class EtlOrchestrator
 
             ct.ThrowIfCancellationRequested();
 
-            // 6. Resolve output file name
-            var fileName = _fileNameService.Resolve(request);
-            outputFilePath = Path.Combine(request.OutputDirectory, fileName);
+            // 6. Resolve output file name — route to mode-specific subdirectory (names from config)
+            var appSettings = _config.GetAppSettings();
+            var subDir = request.Mode.Equals("Export", StringComparison.OrdinalIgnoreCase)
+                ? appSettings.ExportSubDirectory
+                : appSettings.ImportSubDirectory;
+            var resolvedOutputDir = Path.Combine(request.OutputDirectory, subDir);
+            Directory.CreateDirectory(resolvedOutputDir);
+            var fileName = _fileNameService.Resolve(request, resolvedOutputDir);
+            outputFilePath = Path.Combine(resolvedOutputDir, fileName);
 
             // 7. Stream view → Excel
             _reporter.ReportPhase("READING_DATA", $"Opening data stream — {rowCount:N0} rows from {request.ViewName}");

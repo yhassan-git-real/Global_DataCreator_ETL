@@ -10,7 +10,7 @@ public sealed class FileNameService
 {
     private static readonly char[] _invalidChars = Path.GetInvalidFileNameChars();
 
-    public string Resolve(EtlRequest request)
+    public string Resolve(EtlRequest request, string? resolvedDirectory = null)
     {
         string name;
 
@@ -25,7 +25,8 @@ public sealed class FileNameService
             name = AutoGenerate(request);
         }
 
-        return EnsureUnique(request.OutputDirectory, name);
+        var directory = resolvedDirectory ?? request.OutputDirectory;
+        return EnsureUnique(directory, name);
     }
 
     private static string AutoGenerate(EtlRequest request)

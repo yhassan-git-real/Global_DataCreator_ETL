@@ -94,6 +94,12 @@ public sealed class ConfigurationCacheService
         if (root.Application.MaxExcelRows.HasValue)
             settings.MaxExcelRows = root.Application.MaxExcelRows.Value;
 
+        if (!string.IsNullOrWhiteSpace(root.Application.ExportSubDirectory))
+            settings.ExportSubDirectory = root.Application.ExportSubDirectory;
+
+        if (!string.IsNullOrWhiteSpace(root.Application.ImportSubDirectory))
+            settings.ImportSubDirectory = root.Application.ImportSubDirectory;
+
         // --- Built-in fallback: relative to the exe ---
         if (string.IsNullOrWhiteSpace(settings.OutputFilePath))
             settings.OutputFilePath = Path.Combine(_appBaseDir, "Output");

@@ -51,4 +51,10 @@ public sealed class RootApplicationConfig
     /// <summary>null = keep the appsettings.json value.</summary>
     public int? LargeDatasetThreshold { get; set; }
     public int? MaxExcelRows          { get; set; }
+
+    /// <summary>Empty = keep the appsettings.json value (default: "Export").</summary>
+    public string ExportSubDirectory { get; set; } = "";
+
+    /// <summary>Empty = keep the appsettings.json value (default: "Import").</summary>
+    public string ImportSubDirectory { get; set; } = "";
 }
