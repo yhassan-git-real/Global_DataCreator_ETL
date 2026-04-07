@@ -121,6 +121,40 @@ if not exist "%OUT_DIR%\config.json" (
     echo  [OK]  config.json present in publish output.
 )
 
+:: -- Create shortcut in root directory ------------------------
+echo.
+echo  [..] Creating shortcut in root directory...
+set "EXE_ABS="
+for %%F in ("%EXE%") do set "EXE_ABS=%%~fF"
+set "WD_ABS="
+for %%F in ("%OUT_DIR%") do set "WD_ABS=%%~fF"
+set "ROOT_ABS="
+for %%F in ("%ROOT%") do set "ROOT_ABS=%%~fF"
+
+:: -- Delete old shortcut so it is always freshly created ------
+if exist "%ROOT_ABS%\GlobalDataCreatorETL.lnk" (
+    del /f /q "%ROOT_ABS%\GlobalDataCreatorETL.lnk" >nul 2>&1
+)
+
+set "VBS_TMP=%TEMP%\mk_shortcut_%RANDOM%.vbs"
+(
+    echo Set ws = CreateObject^("WScript.Shell"^)
+    echo Set sc = ws.CreateShortcut^("%ROOT_ABS%\GlobalDataCreatorETL.lnk"^)
+    echo sc.TargetPath = "%EXE_ABS%"
+    echo sc.WorkingDirectory = "%WD_ABS%"
+    echo sc.Description = "GlobalDataCreatorETL"
+    echo sc.IconLocation = "%EXE_ABS%, 0"
+    echo sc.Save
+) > "%VBS_TMP%"
+
+cscript //nologo "%VBS_TMP%" >nul 2>&1
+if %errorlevel% neq 0 (
+    echo  [WARN] Could not create shortcut.
+) else (
+    echo  [OK]  Shortcut created: GlobalDataCreatorETL.lnk  (root folder^)
+)
+del "%VBS_TMP%" >nul 2>&1
+
 :: -- Summary ---------------------------------------------------
 set "FILE_COUNT=0"
 for /f %%i in ('dir /b /s "%OUT_DIR%" 2^>nul ^| find /c /v ""') do set "FILE_COUNT=%%i"
@@ -144,7 +178,8 @@ echo     Database.ServerName     -- SQL Server host,port
 echo     Database.DatabaseName   -- target database
 echo.
 echo   To launch:
-echo     run.bat                 (from repo root)
+echo     GlobalDataCreatorETL.lnk  (shortcut in root -- double-click)
+echo     run.bat                   (from repo root)
 echo     or double-click the .exe directly
 echo.
 echo  ============================================================
