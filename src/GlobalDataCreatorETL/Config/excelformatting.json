@@ -16,5 +16,7 @@
   "FreezeTopRow": true,
   "HeaderRowHeight": 20,
   "HeaderHorizontalAlignment": "Center",
-  "HeaderVerticalAlignment": "Middle"
+  "HeaderVerticalAlignment": "Middle",
+  "SortColumns": [1],
+  "SortOrder": "ASC"
 }

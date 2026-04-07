@@ -161,4 +161,29 @@ public sealed class ExcelFormattingService
             _ => ExcelVerticalAlignment.Center
         };
     }
+
+    public void ApplySort(ExcelWorksheet ws, ExcelFormatSettings cfg, int totalCols)
+    {
+        if (ws.Dimension is null) return;
+        if (cfg.SortColumns is null || cfg.SortColumns.Count == 0) return;
+
+        int totalRows = ws.Dimension.Rows;
+        if (totalRows < 2) return; // header only — nothing to sort
+
+        var validCols = cfg.SortColumns
+            .Where(c => c >= 1 && c <= totalCols)
+            .ToList();
+        if (validCols.Count == 0) return;
+
+        var order = "DESC".Equals(cfg.SortOrder, StringComparison.OrdinalIgnoreCase)
+            ? eSortOrder.Descending
+            : eSortOrder.Ascending;
+
+        // Sort data rows only (row 2 onward), preserving the header row
+        ws.Cells[2, 1, totalRows, totalCols].Sort(x =>
+        {
+            foreach (var col in validCols)
+                x.SortBy.Column(col - 1, order); // EPPlus Sort uses 0-based column index within the range
+        });
+    }
 }

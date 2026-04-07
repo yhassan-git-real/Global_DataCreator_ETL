@@ -64,6 +64,10 @@ public sealed class ExcelReportService
         _formatting.Apply(ws, columnTypeMap, formatSettings);
         ct.ThrowIfCancellationRequested();
 
+        // Sort data rows by configured column positions (final step — after formatting)
+        _formatting.ApplySort(ws, formatSettings, columnTypeMap.TotalColumns);
+        ct.ThrowIfCancellationRequested();
+
         // Save
         await _saveService.SaveAsync(pkg, outputFilePath, actualRowCount);
     }

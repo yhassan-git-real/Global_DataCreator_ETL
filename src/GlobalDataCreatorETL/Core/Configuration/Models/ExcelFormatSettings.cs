@@ -20,4 +20,10 @@ public sealed class ExcelFormatSettings
     public double HeaderRowHeight { get; set; }
     public string HeaderHorizontalAlignment { get; set; } = null!;
     public string HeaderVerticalAlignment { get; set; } = null!;
+
+    /// <summary>1-based column positions to sort by (in priority order). Empty list = no sort applied.</summary>
+    public List<int> SortColumns { get; set; } = new();
+
+    /// <summary>"ASC" or "DESC" — applies uniformly to all columns listed in SortColumns.</summary>
+    public string SortOrder { get; set; } = "ASC";
 }
