@@ -117,7 +117,7 @@ public sealed class EtlOrchestrator
                     Product            = product == "%" ? null : product,
                     IecCode            = iec == "%" ? null : iec,
                     CompanyName        = company == "%" ? null : company,
-                    ForeignCountryCode = forCountry == "%" ? null : forCountry,
+                    ForeignCountry = forCountry == "%" ? null : forCountry,
                     ForeignName        = forName == "%" ? null : forName,
                     Port               = port == "%" ? null : port,
                     OutputDirectory    = inputs.OutputDirectory,

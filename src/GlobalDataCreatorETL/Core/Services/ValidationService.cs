@@ -20,7 +20,7 @@ public sealed class ValidationService
 
         // At least one filter required
         var filters = new[] { request.HsCode, request.Product, request.IecCode,
-                               request.CompanyName, request.ForeignCountryCode,
+                               request.CompanyName, request.ForeignCountry,
                                request.ForeignName, request.Port };
 
         bool hasFilter = filters.Any(f => !string.IsNullOrWhiteSpace(f) && f.Trim() != "%");

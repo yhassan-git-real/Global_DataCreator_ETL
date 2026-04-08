@@ -25,7 +25,7 @@ public sealed partial class MainViewModel
             return ValidationResult.Fail("From Month must be earlier than or equal to To Month.");
 
         var filters = new[] { Filter.HsCode, Filter.Product, Filter.IecCode,
-                               Filter.CompanyName, Filter.ForeignCountryCode,
+                               Filter.CompanyName, Filter.ForeignCountry,
                                Filter.ForeignName, Filter.Port };
 
         bool hasFilter = filters.Any(f => !string.IsNullOrWhiteSpace(f) && f.Trim() != "%");

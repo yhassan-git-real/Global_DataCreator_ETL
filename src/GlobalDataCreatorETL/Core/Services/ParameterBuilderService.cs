@@ -20,7 +20,7 @@ public sealed class ParameterBuilderService
             ["@prod"]      = Wildcard(request.Product),
             ["@Iec"]       = Wildcard(request.IecCode),
             [isExport ? "@ExpCmp" : "@ImpCmp"] = Wildcard(request.CompanyName),
-            ["@forcount"]  = Wildcard(request.ForeignCountryCode),
+            ["@forcount"]  = Wildcard(request.ForeignCountry),
             ["@forname"]   = Wildcard(request.ForeignName),
             ["@port"]      = Wildcard(request.Port)
         };

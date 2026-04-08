@@ -94,13 +94,13 @@
             </Border.Background>
         </Border>
 
-        <!-- ── Row 3: Foreign Country Code | Foreign Name | Port ─────────── -->
+        <!-- ── Row 3: Foreign Country | Foreign Name | Port ──────────────── -->
         <Grid ColumnDefinitions="*,8,*,8,*" Margin="0 0 0 10">
 
             <StackPanel Grid.Column="0" Spacing="5">
-                <TextBlock Classes="FieldLabel" Text="Foreign Country Code" />
+                <TextBlock Classes="FieldLabel" Text="Foreign Country" />
                 <TextBox Classes="FormInput"
-                         Text="{Binding Filter.ForeignCountryCode}"
+                         Text="{Binding Filter.ForeignCountry}"
                          Watermark="e.g. USA, CHN — comma-separated" />
             </StackPanel>
 
@@ -136,11 +136,17 @@
 
             <StackPanel Grid.Column="0" Spacing="5">
                 <TextBlock Classes="FieldLabel" Text="Country" />
-                <ComboBox Classes="FormComboBox"
-                          ItemsSource="{Binding Countries}"
-                          SelectedItem="{Binding SelectedCountry}"
-                          DisplayMemberBinding="{Binding Name}"
-                          PlaceholderText="Select country…" />
+                <Border Classes="AutoCompleteBorder">
+                    <AutoCompleteBox Classes="FormAutoComplete"
+                                     ItemsSource="{Binding Countries}"
+                                     SelectedItem="{Binding SelectedCountry}"
+                                     ValueMemberBinding="{Binding Name}"
+                                     FilterMode="Contains"
+                                     Watermark="Type to search country…"
+                                     MinimumPrefixLength="0"
+                                     MaxDropDownHeight="260"
+                                     IsTextCompletionEnabled="True" />
+                </Border>
             </StackPanel>
 
             <StackPanel Grid.Column="2" Spacing="5">

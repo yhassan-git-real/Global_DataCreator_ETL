@@ -153,7 +153,7 @@ public sealed partial class MainViewModel
         Products           = SplitAndTrim(Filter.Product),
         IecCodes           = SplitAndTrim(Filter.IecCode),
         CompanyNames       = SplitAndTrim(Filter.CompanyName),
-        ForeignCountryCodes = SplitAndTrim(Filter.ForeignCountryCode),
+        ForeignCountryCodes = SplitAndTrim(Filter.ForeignCountry),
         ForeignNames       = SplitAndTrim(Filter.ForeignName),
         Ports              = SplitAndTrim(Filter.Port),
         OutputDirectory    = Filter.OutputDirectory,

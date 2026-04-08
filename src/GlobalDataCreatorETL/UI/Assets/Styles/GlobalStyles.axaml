@@ -73,7 +73,7 @@
     <Style Selector="TextBlock.SectionTitle">
         <Setter Property="FontSize"          Value="10" />
         <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Foreground"        Value="#5B9BF5" />
+        <Setter Property="Foreground"        Value="#FFFFFF" />
         <Setter Property="LetterSpacing"     Value="1" />
         <Setter Property="Margin"            Value="0 0 0 4" />
         <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
@@ -89,9 +89,9 @@
 
     <!-- ── Labels ────────────────────────────────────────────────────────── -->
     <Style Selector="TextBlock.FieldLabel">
-        <Setter Property="FontSize"          Value="10" />
+        <Setter Property="FontSize"          Value="12" />
         <Setter Property="FontWeight"        Value="SemiBold" />
-        <Setter Property="Foreground"        Value="#4A6E8C" />
+        <Setter Property="Foreground"        Value="#FFFFFF" />
         <Setter Property="LetterSpacing"     Value="0.8" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin"            Value="0 0 0 4" />
@@ -156,10 +156,83 @@
         <Setter Property="BorderBrush" Value="#5B9BF5" />
     </Style>
 
+    <!-- ── AutoCompleteBox wrapper Border — provides full 4-side border ──── -->
+    <!-- This Border is the visual shell: same border/bg/radius as FormInput -->
+    <Style Selector="Border.AutoCompleteBorder">
+        <Setter Property="Height"            Value="28" />
+        <Setter Property="Background"        Value="#1AFFFFFF" />
+        <Setter Property="BorderBrush"       Value="#3898B4CC" />
+        <Setter Property="BorderThickness"   Value="1" />
+        <Setter Property="CornerRadius"      Value="5" />
+    </Style>
+    <Style Selector="Border.AutoCompleteBorder:pointerover">
+        <Setter Property="Background"  Value="#28FFFFFF" />
+        <Setter Property="BorderBrush" Value="#5498B4CC" />
+    </Style>
+
+    <!-- ── AutoCompleteBox — transparent, borderless (wrapper handles visuals) ─ -->
+    <Style Selector="AutoCompleteBox.FormAutoComplete">
+        <Setter Property="FontSize"                  Value="12" />
+        <Setter Property="Foreground"                Value="#BDD4E8" />
+        <Setter Property="Background"                Value="Transparent" />
+        <Setter Property="BorderThickness"           Value="0" />
+        <Setter Property="HorizontalAlignment"       Value="Stretch" />
+        <Setter Property="VerticalAlignment"         Value="Center" />
+        <Setter Property="FontFamily"                Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+    <!-- Inner TextBox: fully transparent — no border, no background -->
+    <Style Selector="AutoCompleteBox.FormAutoComplete /template/ TextBox">
+        <Setter Property="Background"                Value="Transparent" />
+        <Setter Property="BorderThickness"           Value="0" />
+        <Setter Property="Padding"                   Value="8 4" />
+        <Setter Property="VerticalContentAlignment"  Value="Center" />
+        <Setter Property="Foreground"                Value="#BDD4E8" />
+        <Setter Property="CaretBrush"                Value="#BDD4E8" />
+        <Setter Property="SelectionBrush"            Value="#505B9BF5" />
+        <Setter Property="FontFamily"                Value="Segoe UI, Inter, sans-serif" />
+        <Setter Property="FontSize"                  Value="12" />
+    </Style>
+    <!-- Kill any inner template border that Fluent theme might add -->
+    <Style Selector="AutoCompleteBox.FormAutoComplete /template/ TextBox /template/ Border">
+        <Setter Property="Background"      Value="Transparent" />
+        <Setter Property="BorderThickness"  Value="0" />
+    </Style>
+    <!-- Watermark / placeholder text -->
+    <Style Selector="AutoCompleteBox.FormAutoComplete /template/ TextBox /template/ TextBlock">
+        <Setter Property="Foreground" Value="#3A6080" />
+    </Style>
+    <!-- Focus state — blue border on the wrapper -->
+    <Style Selector="Border.AutoCompleteBorder:focus-within">
+        <Setter Property="Background"  Value="#22FFFFFF" />
+        <Setter Property="BorderBrush" Value="#5B9BF5" />
+        <Setter Property="BorderThickness" Value="1.5" />
+    </Style>
+    <!-- Dropdown popup list styling -->
+    <Style Selector="AutoCompleteBox.FormAutoComplete ListBox">
+        <Setter Property="Background"    Value="#1C2840" />
+        <Setter Property="BorderBrush"   Value="#2C3D58" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius"  Value="5" />
+        <Setter Property="Padding"       Value="2" />
+    </Style>
+    <Style Selector="AutoCompleteBox.FormAutoComplete ListBoxItem">
+        <Setter Property="Padding"       Value="8 5" />
+        <Setter Property="Foreground"    Value="#BDD4E8" />
+        <Setter Property="FontSize"      Value="12" />
+        <Setter Property="CornerRadius"  Value="3" />
+        <Setter Property="FontFamily"    Value="Segoe UI, Inter, sans-serif" />
+    </Style>
+    <Style Selector="AutoCompleteBox.FormAutoComplete ListBoxItem:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#2C3D58" />
+    </Style>
+    <Style Selector="AutoCompleteBox.FormAutoComplete ListBoxItem:selected /template/ ContentPresenter">
+        <Setter Property="Background" Value="#3A5078" />
+    </Style>
+
     <!-- ── RadioButton ───────────────────────────────────────────────────── -->
     <Style Selector="RadioButton.FormRadio">
         <Setter Property="FontSize"          Value="12" />
-        <Setter Property="Foreground"        Value="#B0C8E0" />
+        <Setter Property="Foreground"        Value="#FFFFFF" />
         <Setter Property="Margin"            Value="0 0 16 0" />
         <Setter Property="FontFamily"        Value="Segoe UI, Inter, sans-serif" />
     </Style>

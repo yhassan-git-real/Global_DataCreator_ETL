@@ -18,7 +18,7 @@ public sealed class EtlRequest
     public string? Product { get; init; }
     public string? IecCode { get; init; }
     public string? CompanyName { get; init; }
-    public string? ForeignCountryCode { get; init; }
+    public string? ForeignCountry { get; init; }
     public string? ForeignName { get; init; }
     public string? Port { get; init; }
 

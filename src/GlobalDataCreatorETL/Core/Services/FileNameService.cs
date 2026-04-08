@@ -34,7 +34,7 @@ public sealed class FileNameService
         var parts = new[]
         {
             request.HsCode, request.Product, request.CompanyName,
-            request.IecCode, request.ForeignCountryCode, request.ForeignName, request.Port
+            request.IecCode, request.ForeignCountry, request.ForeignName, request.Port
         }
         .Where(v => !string.IsNullOrWhiteSpace(v) && v.Trim() != "%")
         .Select(v => SanitizeFileName(v!.Trim()))

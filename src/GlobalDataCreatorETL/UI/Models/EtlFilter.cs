@@ -15,7 +15,7 @@ public sealed class EtlFilter : ReactiveObject
     private string _product = string.Empty;
     private string _iecCode = string.Empty;
     private string _companyName = string.Empty;
-    private string _foreignCountryCode = string.Empty;
+    private string _foreignCountry = string.Empty;
     private string _foreignName = string.Empty;
     private string _port = string.Empty;
     private string _outputDirectory = string.Empty;
@@ -29,7 +29,7 @@ public sealed class EtlFilter : ReactiveObject
     public string Product       { get => _product;             set => this.RaiseAndSetIfChanged(ref _product, value); }
     public string IecCode       { get => _iecCode;             set => this.RaiseAndSetIfChanged(ref _iecCode, value); }
     public string CompanyName   { get => _companyName;         set => this.RaiseAndSetIfChanged(ref _companyName, value); }
-    public string ForeignCountryCode { get => _foreignCountryCode; set => this.RaiseAndSetIfChanged(ref _foreignCountryCode, value); }
+    public string ForeignCountry { get => _foreignCountry; set => this.RaiseAndSetIfChanged(ref _foreignCountry, value); }
     public string ForeignName   { get => _foreignName;         set => this.RaiseAndSetIfChanged(ref _foreignName, value); }
     public string Port          { get => _port;                set => this.RaiseAndSetIfChanged(ref _port, value); }
     public string OutputDirectory { get => _outputDirectory;   set => this.RaiseAndSetIfChanged(ref _outputDirectory, value); }
@@ -44,7 +44,7 @@ public sealed class EtlFilter : ReactiveObject
     public void Reset()
     {
         HsCode = Product = IecCode = CompanyName
-            = ForeignCountryCode = ForeignName = Port
+            = ForeignCountry = ForeignName = Port
             = UserFileName = string.Empty;
     }
 }
