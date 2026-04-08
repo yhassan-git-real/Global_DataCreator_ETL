@@ -108,14 +108,14 @@
         <Setter Property="BorderBrush"               Value="#3898B4CC" />
         <Setter Property="BorderThickness"           Value="1" />
         <Setter Property="Background"                Value="#1AFFFFFF" />
-        <Setter Property="Foreground"                Value="#BDD4E8" />
-        <Setter Property="CaretBrush"                Value="#BDD4E8" />
+        <Setter Property="Foreground"                Value="#FFFFFF" />
+        <Setter Property="CaretBrush"                Value="#FFFFFF" />
         <Setter Property="SelectionBrush"            Value="#505B9BF5" />
         <Setter Property="FontFamily"                Value="Segoe UI, Inter, sans-serif" />
     </Style>
     <!-- Watermark / placeholder text -->
     <Style Selector="TextBox.FormInput /template/ TextBlock">
-        <Setter Property="Foreground" Value="#3A6080" />
+        <Setter Property="Foreground" Value="#80FFFFFF" />
     </Style>
     <!-- Inner border: transparent so our semi-opaque outer colour shows -->
     <Style Selector="TextBox.FormInput /template/ Border">
@@ -142,7 +142,7 @@
         <Setter Property="BorderBrush"           Value="#3898B4CC" />
         <Setter Property="BorderThickness"       Value="1" />
         <Setter Property="Background"            Value="#1AFFFFFF" />
-        <Setter Property="Foreground"            Value="#BDD4E8" />
+        <Setter Property="Foreground"            Value="#FFFFFF" />
         <Setter Property="HorizontalAlignment"   Value="Stretch" />
         <Setter Property="MaxDropDownHeight"     Value="260" />
         <Setter Property="FontFamily"            Value="Segoe UI, Inter, sans-serif" />
@@ -173,7 +173,7 @@
     <!-- ── AutoCompleteBox — transparent, borderless (wrapper handles visuals) ─ -->
     <Style Selector="AutoCompleteBox.FormAutoComplete">
         <Setter Property="FontSize"                  Value="12" />
-        <Setter Property="Foreground"                Value="#BDD4E8" />
+        <Setter Property="Foreground"                Value="#FFFFFF" />
         <Setter Property="Background"                Value="Transparent" />
         <Setter Property="BorderThickness"           Value="0" />
         <Setter Property="HorizontalAlignment"       Value="Stretch" />
@@ -186,8 +186,8 @@
         <Setter Property="BorderThickness"           Value="0" />
         <Setter Property="Padding"                   Value="8 4" />
         <Setter Property="VerticalContentAlignment"  Value="Center" />
-        <Setter Property="Foreground"                Value="#BDD4E8" />
-        <Setter Property="CaretBrush"                Value="#BDD4E8" />
+        <Setter Property="Foreground"                Value="#FFFFFF" />
+        <Setter Property="CaretBrush"                Value="#FFFFFF" />
         <Setter Property="SelectionBrush"            Value="#505B9BF5" />
         <Setter Property="FontFamily"                Value="Segoe UI, Inter, sans-serif" />
         <Setter Property="FontSize"                  Value="12" />
@@ -199,7 +199,7 @@
     </Style>
     <!-- Watermark / placeholder text -->
     <Style Selector="AutoCompleteBox.FormAutoComplete /template/ TextBox /template/ TextBlock">
-        <Setter Property="Foreground" Value="#3A6080" />
+        <Setter Property="Foreground" Value="#80FFFFFF" />
     </Style>
     <!-- Focus state — blue border on the wrapper -->
     <Style Selector="Border.AutoCompleteBorder:focus-within">
@@ -217,7 +217,7 @@
     </Style>
     <Style Selector="AutoCompleteBox.FormAutoComplete ListBoxItem">
         <Setter Property="Padding"       Value="8 5" />
-        <Setter Property="Foreground"    Value="#BDD4E8" />
+        <Setter Property="Foreground"    Value="#FFFFFF" />
         <Setter Property="FontSize"      Value="12" />
         <Setter Property="CornerRadius"  Value="3" />
         <Setter Property="FontFamily"    Value="Segoe UI, Inter, sans-serif" />
