@@ -154,6 +154,40 @@ public sealed partial class MainViewModel
         if (!string.IsNullOrEmpty(result.LastOutputFilePath))
             outputDir = Path.GetDirectoryName(result.LastOutputFilePath) ?? string.Empty;
 
+        // ── Build meaningful error text from actual collected messages ────────
+        var distinctErrors = result.ErrorMessages
+            .Where(m => !string.IsNullOrWhiteSpace(m))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        string primaryError;
+        string detailText;
+
+        if (status == ExecutionDialogStatus.Error)
+        {
+            primaryError = distinctErrors.Count switch
+            {
+                0 => result.ErrorMessage ?? "An unexpected error occurred.",
+                1 => distinctErrors[0],
+                _ => $"{distinctErrors[0]}"   // first real error as headline
+            };
+
+            var lines = new List<string>();
+            if (result.TotalCombinations > 1)
+                lines.Add($"{result.FailedCount} of {result.TotalCombinations} combination(s) failed.");
+            if (distinctErrors.Count > 1)
+            {
+                lines.Add("All errors encountered:");
+                lines.AddRange(distinctErrors.Select((e, i) => $"  [{i + 1}] {e}"));
+            }
+            detailText = string.Join("\n", lines);
+        }
+        else
+        {
+            primaryError = string.Empty;
+            detailText   = string.Empty;
+        }
+
         var vm = new ExecutionResultDialogViewModel
         {
             Status             = status,
@@ -165,10 +199,8 @@ public sealed partial class MainViewModel
             TotalCombinations  = result.TotalCombinations,
             SuccessfulRuns     = result.FilesGenerated,
             FailedRuns         = result.FailedCount,
-            ErrorMessage       = result.ErrorMessage ?? "An unexpected error occurred.",
-            ErrorDetail        = result.FailedCount > 0
-                ? $"{result.FailedCount} combination(s) failed out of {result.TotalCombinations}."
-                : string.Empty
+            ErrorMessage       = primaryError,
+            ErrorDetail        = detailText
         };
 
         var dialog = new ExecutionResultDialog { DataContext = vm };

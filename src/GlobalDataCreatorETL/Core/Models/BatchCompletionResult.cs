@@ -12,5 +12,8 @@ public sealed class BatchCompletionResult
     public string? ErrorMessage { get; init; }
     public IReadOnlyList<string> GeneratedFilePaths { get; init; } = [];
 
+    /// <summary>All distinct error messages collected from individual failed runs.</summary>
+    public IReadOnlyList<string> ErrorMessages { get; init; } = [];
+
     public bool HasAnySuccess => FilesGenerated > 0;
 }

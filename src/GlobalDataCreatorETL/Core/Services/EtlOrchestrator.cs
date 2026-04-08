@@ -69,6 +69,7 @@ public sealed class EtlOrchestrator
         long totalRows = 0;
         string? lastOutputFilePath = null;
         var generatedFilePaths = new List<string>();
+        var errorMessages = new List<string>();
         int combinationIndex = 0;
         int total = inputs.TotalCombinations;
 
@@ -140,6 +141,8 @@ public sealed class EtlOrchestrator
                              result.ErrorMessage != "No data found for the selected filters.")
                     {
                         failedCount++;
+                        if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                            errorMessages.Add(result.ErrorMessage);
                     }
                 }
                 catch (OperationCanceledException)
@@ -149,7 +152,9 @@ public sealed class EtlOrchestrator
                 catch (Exception ex)
                 {
                     failedCount++;
-                    _errorLogger.LogError(ex, "BATCH", $"HS={hsCode}, Product={product}: {ex.Message}");
+                    var msg = ex.Message;
+                    errorMessages.Add(msg);
+                    _errorLogger.LogError(ex, "BATCH", $"HS={hsCode}, Product={product}: {msg}");
                 }
             }
         }
@@ -166,6 +171,7 @@ public sealed class EtlOrchestrator
                 Duration           = sw.Elapsed,
                 LastOutputFilePath = lastOutputFilePath,
                 GeneratedFilePaths = generatedFilePaths,
+                ErrorMessages      = errorMessages,
                 ErrorMessage       = "Operation cancelled by user."
             };
         }
@@ -185,7 +191,8 @@ public sealed class EtlOrchestrator
             Cancelled          = false,
             Duration           = sw.Elapsed,
             LastOutputFilePath = lastOutputFilePath,
-            GeneratedFilePaths = generatedFilePaths
+            GeneratedFilePaths = generatedFilePaths,
+            ErrorMessages      = errorMessages
         };
     }
 
