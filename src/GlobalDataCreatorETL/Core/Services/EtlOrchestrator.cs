@@ -68,6 +68,7 @@ public sealed class EtlOrchestrator
         int filesGenerated = 0, failedCount = 0;
         long totalRows = 0;
         string? lastOutputFilePath = null;
+        var generatedFilePaths = new List<string>();
         int combinationIndex = 0;
         int total = inputs.TotalCombinations;
 
@@ -132,6 +133,8 @@ public sealed class EtlOrchestrator
                         filesGenerated++;
                         totalRows += result.RowCount;
                         lastOutputFilePath = result.OutputFilePath;
+                        if (!string.IsNullOrEmpty(result.OutputFilePath))
+                            generatedFilePaths.Add(result.OutputFilePath);
                     }
                     else if (!result.Success && result.RowCount == 0 &&
                              result.ErrorMessage != "No data found for the selected filters.")
@@ -155,14 +158,15 @@ public sealed class EtlOrchestrator
             sw.Stop();
             return new BatchCompletionResult
             {
-                FilesGenerated    = filesGenerated,
-                TotalCombinations = total,
-                TotalRows         = totalRows,
-                FailedCount       = failedCount,
-                Cancelled         = true,
-                Duration          = sw.Elapsed,
+                FilesGenerated     = filesGenerated,
+                TotalCombinations  = total,
+                TotalRows          = totalRows,
+                FailedCount        = failedCount,
+                Cancelled          = true,
+                Duration           = sw.Elapsed,
                 LastOutputFilePath = lastOutputFilePath,
-                ErrorMessage      = "Operation cancelled by user."
+                GeneratedFilePaths = generatedFilePaths,
+                ErrorMessage       = "Operation cancelled by user."
             };
         }
 
@@ -174,13 +178,14 @@ public sealed class EtlOrchestrator
 
         return new BatchCompletionResult
         {
-            FilesGenerated    = filesGenerated,
-            TotalCombinations = total,
-            TotalRows         = totalRows,
-            FailedCount       = failedCount,
-            Cancelled         = false,
-            Duration          = sw.Elapsed,
-            LastOutputFilePath = lastOutputFilePath
+            FilesGenerated     = filesGenerated,
+            TotalCombinations  = total,
+            TotalRows          = totalRows,
+            FailedCount        = failedCount,
+            Cancelled          = false,
+            Duration           = sw.Elapsed,
+            LastOutputFilePath = lastOutputFilePath,
+            GeneratedFilePaths = generatedFilePaths
         };
     }
 

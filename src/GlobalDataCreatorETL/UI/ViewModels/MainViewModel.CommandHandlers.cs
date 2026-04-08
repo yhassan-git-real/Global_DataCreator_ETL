@@ -1,7 +1,9 @@
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using GlobalDataCreatorETL.Core.Models;
 using GlobalDataCreatorETL.UI.Models;
+using GlobalDataCreatorETL.UI.Views.Dialogs;
 using System.Diagnostics;
 
 namespace GlobalDataCreatorETL.UI.ViewModels;
@@ -34,6 +36,10 @@ public sealed partial class MainViewModel
                 ElapsedTime = sw.Elapsed.ToString(@"hh\:mm\:ss"));
         timer.Start();
 
+        // Captured outside try/finally so the dialog is shown AFTER IsBusy = false.
+        BatchCompletionResult? pendingDialog = null;
+        ExecutionDialogStatus  pendingStatus = ExecutionDialogStatus.Success;
+
         try
         {
             var inputs = BuildEtlInputs();
@@ -52,6 +58,7 @@ public sealed partial class MainViewModel
             {
                 SystemStatus  = SystemStatus.Cancelled;
                 StatusMessage = "Operation cancelled.";
+                // no popup for user-initiated cancellation
             }
             else if (result.HasAnySuccess)
             {
@@ -59,16 +66,25 @@ public sealed partial class MainViewModel
                 StatusMessage = result.TotalCombinations == 1
                     ? $"Done! {result.TotalRows:N0} rows → {Path.GetFileName(result.LastOutputFilePath)}"
                     : $"Done! {result.FilesGenerated}/{result.TotalCombinations} files, {result.TotalRows:N0} total rows.";
+
+                pendingDialog = result;
+                pendingStatus = ExecutionDialogStatus.Success;
             }
             else if (result.TotalRows == 0 && result.FailedCount == 0)
             {
                 SystemStatus  = SystemStatus.Completed;
                 StatusMessage = "No data found for the selected filters.";
+
+                pendingDialog = result;
+                pendingStatus = ExecutionDialogStatus.NoData;
             }
             else
             {
                 SystemStatus  = SystemStatus.Failed;
                 StatusMessage = result.ErrorMessage ?? "One or more combinations failed.";
+
+                pendingDialog = result;
+                pendingStatus = ExecutionDialogStatus.Error;
             }
         }
         catch (OperationCanceledException)
@@ -79,9 +95,16 @@ public sealed partial class MainViewModel
         }
         finally
         {
+            // Always clear busy state before the dialog is shown so the
+            // UI is fully unblocked when the modal window appears.
             _services.CancellationManager.Complete();
             IsBusy = false;
         }
+
+        // Show the result dialog ONCE, after IsBusy = false, for both
+        // single and batch (multi-combination) executions.
+        if (pendingDialog is not null)
+            await ShowExecutionResultDialogAsync(pendingDialog, pendingStatus);
     }
 
     private void ExecuteCancel()
@@ -116,6 +139,40 @@ public sealed partial class MainViewModel
 
         if (folders.Count > 0)
             Filter.OutputDirectory = folders[0].Path.LocalPath;
+    }
+
+    private static async Task ShowExecutionResultDialogAsync(BatchCompletionResult result, ExecutionDialogStatus status)
+    {
+        var owner = Avalonia.Application.Current?.ApplicationLifetime is
+            IClassicDesktopStyleApplicationLifetime desktop
+            ? desktop.MainWindow
+            : null;
+
+        if (owner is null) return;
+
+        string outputDir = string.Empty;
+        if (!string.IsNullOrEmpty(result.LastOutputFilePath))
+            outputDir = Path.GetDirectoryName(result.LastOutputFilePath) ?? string.Empty;
+
+        var vm = new ExecutionResultDialogViewModel
+        {
+            Status             = status,
+            FilesGenerated     = result.FilesGenerated,
+            GeneratedFilePaths = result.GeneratedFilePaths,
+            OutputDirectory    = outputDir,
+            TotalRows          = result.TotalRows,
+            Duration           = result.Duration.ToString(@"hh\:mm\:ss"),
+            TotalCombinations  = result.TotalCombinations,
+            SuccessfulRuns     = result.FilesGenerated,
+            FailedRuns         = result.FailedCount,
+            ErrorMessage       = result.ErrorMessage ?? "An unexpected error occurred.",
+            ErrorDetail        = result.FailedCount > 0
+                ? $"{result.FailedCount} combination(s) failed out of {result.TotalCombinations}."
+                : string.Empty
+        };
+
+        var dialog = new ExecutionResultDialog { DataContext = vm };
+        await dialog.ShowDialog(owner);
     }
 
     // ── Helpers ─────────────────────────────────────────────────────────────

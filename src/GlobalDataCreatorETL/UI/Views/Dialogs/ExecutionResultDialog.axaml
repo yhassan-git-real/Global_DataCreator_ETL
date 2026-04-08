@@ -1,0 +1,445 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GlobalDataCreatorETL.UI.ViewModels"
+        x:Class="GlobalDataCreatorETL.UI.Views.Dialogs.ExecutionResultDialog"
+        Width="460"
+        SizeToContent="Height"
+        MinWidth="380"
+        MaxWidth="560"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Background="#1A2235"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0">
+
+    <Border Background="#1A2235"
+            CornerRadius="10"
+            BorderBrush="#2C3D58"
+            BorderThickness="1"
+            ClipToBounds="True"
+            BoxShadow="0 8 32 0 #80000000">
+
+        <StackPanel Orientation="Vertical">
+
+            <!-- ═══ Header Band ═══════════════════════════════════════════════ -->
+            <Border x:Name="HeaderBand"
+                    Padding="22 18"
+                    PointerPressed="Header_PointerPressed">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#0D1B2E" Offset="0" />
+                        <GradientStop Color="#131E32" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid ColumnDefinitions="Auto,14,*,Auto">
+
+                    <!-- Icon circle -->
+                    <Border Grid.Column="0"
+                            Width="44" Height="44"
+                            CornerRadius="22"
+                            x:Name="IconCircle">
+                        <TextBlock x:Name="HeaderIcon"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+
+                    <!-- Title + subtitle -->
+                    <StackPanel Grid.Column="2"
+                                Orientation="Vertical"
+                                Spacing="3"
+                                VerticalAlignment="Center">
+                        <TextBlock x:Name="TitleText"
+                                   FontSize="17"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   FontFamily="Segoe UI, Inter, sans-serif" />
+                        <TextBlock x:Name="SubtitleText"
+                                   FontSize="11"
+                                   Foreground="#8AAAC4"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <!-- Close (×) -->
+                    <Button Grid.Column="3"
+                            Classes="WinCtrlBtn CloseBtn"
+                            Width="32" Height="32"
+                            CornerRadius="6"
+                            VerticalAlignment="Top"
+                            Click="CloseButton_Click"
+                            ToolTip.Tip="Close">
+                        <TextBlock Text="&#x2715;"
+                                   FontSize="11"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                    </Button>
+
+                </Grid>
+            </Border>
+
+            <!-- ═══ Accent divider line ═══════════════════════════════════════ -->
+            <Border x:Name="AccentLine" Height="2" />
+
+            <!-- ═══ Body ══════════════════════════════════════════════════════ -->
+            <StackPanel Orientation="Vertical"
+                        Spacing="0"
+                        Margin="20 16 20 4">
+
+                <!-- ── SUCCESS rows ──────────────────────────────────────────── -->
+                <StackPanel x:Name="SuccessSection"
+                            Orientation="Vertical"
+                            Spacing="0">
+
+                    <!-- Files Generated -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 10">
+                        <TextBlock Grid.Column="0"
+                                   Text="✔"
+                                   Foreground="#22C55E"
+                                   FontSize="13"
+                                   VerticalAlignment="Top"
+                                   Margin="0 1 0 0" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Files Generated:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run x:Name="FilesGeneratedRun" Foreground="#22C55E" FontWeight="Bold" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Successful Runs (batch only) -->
+                    <Grid x:Name="SuccessfulRunsRow"
+                          ColumnDefinitions="20,10,*"
+                          Margin="0 0 0 10"
+                          IsVisible="False">
+                        <TextBlock Grid.Column="0"
+                                   Text="✔"
+                                   Foreground="#22C55E"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Successful Runs:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run x:Name="SuccessfulRunsRun" Foreground="#22C55E" FontWeight="Bold" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Failed Runs (batch, when > 0) -->
+                    <Grid x:Name="FailedRunsRow"
+                          ColumnDefinitions="20,10,*"
+                          Margin="0 0 0 10"
+                          IsVisible="False">
+                        <TextBlock Grid.Column="0"
+                                   Text="✖"
+                                   Foreground="#F87171"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Failed Runs:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run x:Name="FailedRunsRun" Foreground="#F87171" FontWeight="Bold" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- File Names -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 10">
+                        <TextBlock Grid.Column="0"
+                                   Text="✔"
+                                   Foreground="#22C55E"
+                                   FontSize="13"
+                                   VerticalAlignment="Top"
+                                   Margin="0 1 0 0" />
+                        <StackPanel Grid.Column="2" Orientation="Vertical" Spacing="3">
+                            <TextBlock Text="File Names:"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="#D4E8F8"
+                                       FontFamily="Segoe UI, Inter, sans-serif" />
+                            <Border Background="#CC16202E"
+                                    BorderBrush="#2C3D58"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Padding="10 7"
+                                    MaxHeight="110">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                              HorizontalScrollBarVisibility="Disabled">
+                                    <TextBlock x:Name="FileNamesText"
+                                               FontSize="11"
+                                               Foreground="#BDD4E8"
+                                               FontFamily="Segoe UI Mono, Consolas, monospace"
+                                               TextWrapping="Wrap"
+                                               LineHeight="18" />
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Output Directory -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 10">
+                        <TextBlock Grid.Column="0"
+                                   Text="✔"
+                                   Foreground="#22C55E"
+                                   FontSize="13"
+                                   VerticalAlignment="Top"
+                                   Margin="0 1 0 0" />
+                        <StackPanel Grid.Column="2" Orientation="Vertical" Spacing="2">
+                            <TextBlock Text="Output Directory:"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="#D4E8F8"
+                                       FontFamily="Segoe UI, Inter, sans-serif" />
+                            <TextBlock x:Name="OutputDirText"
+                                       FontSize="11"
+                                       Foreground="#8AAAC4"
+                                       FontFamily="Segoe UI Mono, Consolas, monospace"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Total Rows -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 10">
+                        <TextBlock Grid.Column="0"
+                                   Text="✔"
+                                   Foreground="#22C55E"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Total Rows:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run x:Name="TotalRowsRun" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Duration -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 4">
+                        <TextBlock Grid.Column="0"
+                                   Text="✔"
+                                   Foreground="#22C55E"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Duration:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run x:Name="DurationRun" />
+                        </TextBlock>
+                    </Grid>
+
+                </StackPanel>
+
+                <!-- ── NO DATA rows ──────────────────────────────────────────── -->
+                <StackPanel x:Name="NoDataSection"
+                            Orientation="Vertical"
+                            Spacing="0"
+                            IsVisible="False">
+
+                    <!-- Info banner -->
+                    <Border Background="#1AF59E0B"
+                            BorderBrush="#40F59E0B"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="12 10"
+                            Margin="0 0 0 12">
+                        <Grid ColumnDefinitions="20,10,*">
+                            <TextBlock Grid.Column="0"
+                                       Text="○"
+                                       Foreground="#FCD34D"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Top"
+                                       Margin="0 1 0 0" />
+                            <TextBlock Grid.Column="2"
+                                       FontSize="12"
+                                       Foreground="#FDE68A"
+                                       FontFamily="Segoe UI, Inter, sans-serif"
+                                       TextWrapping="Wrap"
+                                       LineHeight="20"
+                                       Text="No data found for the selected filters. No files were generated." />
+                        </Grid>
+                    </Border>
+
+                    <!-- Files Generated: 0 -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 10">
+                        <TextBlock Grid.Column="0"
+                                   Text="○"
+                                   Foreground="#FCD34D"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Files Generated:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run Text="0" Foreground="#FCD34D" FontWeight="Bold" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Duration -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 10">
+                        <TextBlock Grid.Column="0"
+                                   Text="○"
+                                   Foreground="#FCD34D"
+                                   FontSize="13"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="12"
+                                   Foreground="#9CB8D0"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   VerticalAlignment="Center">
+                            <Run Text="Duration:  " FontWeight="SemiBold" Foreground="#D4E8F8" />
+                            <Run x:Name="NoDataDurationRun" Foreground="#BDD4E8" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Suggestion -->
+                    <Grid ColumnDefinitions="20,10,*" Margin="0 0 0 4">
+                        <TextBlock Grid.Column="0"
+                                   Text="💡"
+                                   FontSize="12"
+                                   VerticalAlignment="Top"
+                                   Margin="0 1 0 0" />
+                        <TextBlock Grid.Column="2"
+                                   FontSize="11"
+                                   Foreground="#7096B8"
+                                   FontFamily="Segoe UI, Inter, sans-serif"
+                                   TextWrapping="Wrap"
+                                   Text="Try adjusting your filter parameters or selecting a different date range." />
+                    </Grid>
+
+                </StackPanel>
+
+                <!-- ── ERROR rows ────────────────────────────────────────────── -->
+                <StackPanel x:Name="ErrorSection"
+                            Orientation="Vertical"
+                            Spacing="0"
+                            IsVisible="False">
+
+                    <!-- Error message -->
+                    <Border Background="#1ADC2626"
+                            BorderBrush="#50DC2626"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="12 10"
+                            Margin="0 0 0 12">
+                        <Grid ColumnDefinitions="20,10,*">
+                            <TextBlock Grid.Column="0"
+                                       Text="✖"
+                                       Foreground="#F87171"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Top"
+                                       Margin="0 1 0 0" />
+                            <TextBlock Grid.Column="2"
+                                       x:Name="ErrorMessageText"
+                                       FontSize="12"
+                                       Foreground="#FCA5A5"
+                                       FontFamily="Segoe UI, Inter, sans-serif"
+                                       TextWrapping="Wrap"
+                                       LineHeight="20" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Expandable technical details -->
+                    <StackPanel x:Name="DetailsSection"
+                                Orientation="Vertical"
+                                Spacing="6"
+                                IsVisible="False">
+                        <Button x:Name="ToggleDetailsButton"
+                                Classes="OutlineButton"
+                                HorizontalAlignment="Left"
+                                Click="ToggleDetails_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock x:Name="ToggleIcon"
+                                           Text="▶"
+                                           FontSize="9"
+                                           VerticalAlignment="Center"
+                                           Foreground="#5B9BF5" />
+                                <TextBlock Text="Show Technical Details"
+                                           FontSize="11"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+
+                        <Border x:Name="DetailsBorder"
+                                Background="#CC0D1B2E"
+                                BorderBrush="#2C3D58"
+                                BorderThickness="1"
+                                CornerRadius="5"
+                                Padding="10 8"
+                                IsVisible="False"
+                                MaxHeight="120">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <TextBlock x:Name="ErrorDetailText"
+                                           FontSize="11"
+                                           Foreground="#7096B8"
+                                           FontFamily="Segoe UI Mono, Consolas, monospace"
+                                           TextWrapping="Wrap"
+                                           LineHeight="18" />
+                            </ScrollViewer>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <!-- ═══ Divider ════════════════════════════════════════════════════ -->
+            <Border Classes="Divider" Margin="20 12 20 0" />
+
+            <!-- ═══ Footer / Buttons ═══════════════════════════════════════════ -->
+            <Grid ColumnDefinitions="Auto,*,Auto"
+                  Margin="20 10 20 18">
+
+                <!-- Copy Details (error only) -->
+                <Button Grid.Column="0"
+                        x:Name="CopyDetailsButton"
+                        Classes="OutlineButton"
+                        IsVisible="False"
+                        Click="CopyDetails_Click"
+                        ToolTip.Tip="Copy error details to clipboard">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="⎘" FontSize="13" VerticalAlignment="Center" Foreground="#5B9BF5" />
+                        <TextBlock Text="Copy Details" FontSize="11" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <!-- OK button -->
+                <Button Grid.Column="2"
+                        x:Name="OkButton"
+                        Classes="PrimaryButton"
+                        Width="90"
+                        Click="OkButton_Click"
+                        IsDefault="True">
+                    <TextBlock Text="OK"
+                               FontSize="13"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </Button>
+
+            </Grid>
+
+        </StackPanel>
+    </Border>
+
+</Window>

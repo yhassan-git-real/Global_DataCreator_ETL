@@ -10,6 +10,7 @@ public sealed class BatchCompletionResult
     public TimeSpan Duration { get; init; }
     public string? LastOutputFilePath { get; init; }
     public string? ErrorMessage { get; init; }
+    public IReadOnlyList<string> GeneratedFilePaths { get; init; } = [];
 
     public bool HasAnySuccess => FilesGenerated > 0;
 }
